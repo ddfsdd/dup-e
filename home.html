@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Basic -->
+		<title>DupMe HomePage</title>
+		<!-- Specific Metas-->
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="/w3css/4/w3.css" />
+		<link href="https://fonts.googleapis.com/css?family=Source Code Pro" rel="stylesheet" />
+
+		<!--style-->
+		<style>
+			.split {
+				height: 100%;
+				width: 50%;
+				position: fixed;
+				z-index: 1;
+				top: 0;
+				overflow: hidden;
+				padding-top: 20px;
+				color: white;
+			}
+
+			.left {
+				left: 0;
+				background-color: #1fb49b;
+			}
+
+			.right {
+				right: 0;
+				background-color: #a08a0c;
+			}
+
+			.centered {
+				position: relative;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -40%);
+				text-align: center;
+			}
+			.myLink {
+				text-decoration: none;
+				color: white !important;
+				opacity: 0.8;
+			}
+			.myLink:hover {
+				opacity: 1;
+			}
+
+			.myLink:hover h1 {
+				font-size: 41px;
+			}
+
+			.mySpan {
+				border-radius: 15%;
+				border: 2px solid white;
+				padding: 20px 35px;
+				display: inline-block;
+				font-size: 105px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="split left">
+			<div class="centered">
+				<a href="" class="myLink">
+					<span class="mySpan">Game</span>
+				</a>
+			</div>
+		</div>
+		<div class="split right">
+			<div class="centered">
+				<a href="" class="myLink">
+					<span class="mySpan">Server</span>
+				</a>
+			</div>
+		</div>
+	</body>
+</html>
