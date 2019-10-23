@@ -741,14 +741,14 @@
   //BGM
 	//trying to kill you when start loading the page.
 	var kira_theme = new Howl({
-		src: ['dup-e/sfx/bgm/kira_theme.mp3'],
+		src: ['sfx/kira_theme.mp3'],
 		preload: true,
 		autoplay: true,
 		loop: true,
 	});
 	//drawww monster cardoo.
 	var FoC_theme = new Howl({
-		src: ['dup-e/sfx/bgm/FoC_theme.mp3'],
+		src: ['sfx/FoC_theme.mp3'],
 		loop: true,
 		volume: ['0.1'],
 	});
