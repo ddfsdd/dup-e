@@ -519,6 +519,18 @@
   socket.on('reset',() => {
   alert("You've been reset boi!");
 });
+
+  socket.on('resetScore',(data)=>{
+    alert("You're score is reset to " + data.score);
+    player.score = data.score;
+    $('#score').text(player.getScore());
+        //for live score update
+      socket.emit('updateScore', {
+        senderScore: player.getScore(),
+        room: game.getRoomId(),
+      });
+    socket.emit('resetScoreRcvd', {score: player.getScore()});
+  });
   /**
 	 * End the game on any err event.
 	 */

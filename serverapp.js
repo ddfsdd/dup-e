@@ -45,6 +45,21 @@
     socket.emit('reset', { room: roomID });
   });
 
+  $('#resetB').on('click', () => {
+    const roomID = $('#roomB').val();
+    const name = $('#nameB').val();
+    const score = $('#scoreB').val();
+    //eg. room-1
+    if (!name || !roomID || !score) {
+      alert('Please enter your name and game ID.');
+      return;
+    }
+    if(typeof(score)!=Number){
+      // alert("Please enter a number as a score");
+    }
+    socket.emit('resetScore', { room: roomID , name, score});
+  });
+
   let resetArray = [];
 
   socket.on('resetComplete',(data)=>{
@@ -53,6 +68,14 @@
     $('#resetstatus').html(message);
   });
 
+  let resetScoreArray = [];
+
+  socket.on('resetScoreComplete',(data)=>{
+    resetScoreArray.push(data);
+    let message = JSON.stringify(resetScoreArray);
+    localStorage.setItem("resetScoreComplete",message);
+    $('#resetstatusB').text(message);
+  });
   socket.on('err', (data) => {
     alert(data.message);
   });

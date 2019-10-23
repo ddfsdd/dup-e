@@ -60,7 +60,24 @@ serverapp.on('connection', socket => {
 			client.to(clientInRoom[1]).emit('player1', {});
 			client.to(clientInRoom[0]).emit('player2', {});
 		}
-	});
+  });
+  
+  socket.on('resetScore', (data) => {
+    
+    var roomSocket = client.adapter.rooms[data.room].sockets;
+    var clientInRoom = Object.keys(roomSocket);
+    if(IdRoomPlayer[clientInRoom[0]][1] == data.name){
+      client.to(clientInRoom[0]).emit('resetScore',{score: data.score});
+    }
+    if(IdRoomPlayer[clientInRoom[1]][1] == data.name){
+      client.to(clientInRoom[1]).emit('resetScore',{score: data.score});
+    }
+    else{
+      console.log('Name does not exist');
+    }
+  });
+
+
 });
 
 //connect with main.js
@@ -202,24 +219,17 @@ client.on('connection', socket => {
 		console.log(playersOnline);
 		serverapp.emit('playersOnline', playersOnline);
 	});
-	var randomFirstFlipInBetween = true;
-	socket.on('resetRcvd', data => {
-		console.log('reset received! by ' + socket.id);
-		console.log('moves :' + data.moves);
-		console.log('score :' + data.score);
-		console.log('T');
+  socket.on('resetRcvd',()=>{
+    let message = 'reset received! by '+socket.id;
+    console.log(message);
+    serverapp.emit('resetComplete',message);
+  });
 
-		var room = client.adapter.rooms[data.room];
-		if (randomFirstFlipInBetween) {
-			io.to(socket.id).emit('player1');
-			console.log('player 1 rndm emitted');
-		} else {
-			io.to(socket.id).emit('player2');
-			console.log('player 2 rndm emitted');
-		}
-		randomFirstFlipInBetween = !randomFirstFlipInBetween;
-		// serverapp.emit('resetComplete',data);
-	});
+  socket.on('resetScoreRcvd',(data)=>{
+    let message = 'reset received! by '+socket.id+' the score is '+data.score;
+    console.log(message);
+    serverapp.emit('resetScoreComplete',message);
+  });
 	//added
 	socket.on('rematchRequest', data => {
 		console.log('forwarding rematch' + data.room);
