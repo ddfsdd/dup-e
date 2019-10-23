@@ -16,3 +16,11 @@ http://localhost:5000/game for host
 OR
 
 Go to https://rogerdudler.github.io/git-guide/ for live server.
+
+TO-DO List by DV.
+[func]
+score update at Endgame
+username sender
+[extra]
+semi password for server
+
