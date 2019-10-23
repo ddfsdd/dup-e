@@ -36,6 +36,7 @@
 			},
 			//add logic to input data into the array.
     });
+    document.onkeyup = press;
 	});
   // animate the pattern of the opponent array to follow.
 	async function animateAndSetReceiver(array) {
@@ -244,8 +245,10 @@
       $('.menu').css('display', 'none');
       $('.gameBoard').css('display', 'block');
       $('#userHello').html(message);
+      kira_theme.stop();
       this.createGameBoard(); //function above
       //Game.createGameBoard()
+      FoC_theme.play();
     }
     /**
      * Update game board UI
@@ -735,6 +738,31 @@
 		$('[lang="th"]').toggle();
 		$('[lang="en"]').toggle();
 	});
+  //BGM
+	//trying to kill you when start loading the page.
+	var kira_theme = new Howl({
+		src: ['sfx/bgm/kira_theme.mp3'],
+		preload: true,
+		autoplay: true,
+		loop: true,
+	});
+	//drawww monster cardoo.
+	var FoC_theme = new Howl({
+		src: ['sfx/bgm/FoC_theme.mp3'],
+		loop: true,
+		volume: ['0.1'],
+	});
+	$('#muted_btn').on('click', () => {
+		if ($('#muted_btn').hasClass('toggled')) {
+			kira_theme.mute(false);
+			FoC_theme.mute(false);
+		} else {
+			kira_theme.mute(true);
+			FoC_theme.mute(true);
+		}
+
+		$('#muted_btn').toggleClass('toggled');
+	});
 
 	//Sound Effect
 	var sound_do = new Howl({
@@ -781,6 +809,54 @@
 				break;
 			case 7:
 				sound_si.play();
+				break;
+		}
+  }
+  //for keypressed function
+	async function press(e) {
+		//console.log(`${e.key}`);
+		switch (e.key) {
+			case 'q':
+				toggleColor('#playerbtn_1', 'btn-primary', 'btn-danger');
+				await delay(200);
+				toggleColor('#playerbtn_1', 'btn-danger', 'btn-primary');
+				document.getElementById('playerbtn_1').click();
+				break;
+			case 'w':
+				toggleColor('#playerbtn_2', 'btn-primary', 'btn-danger');
+				await delay(200);
+				toggleColor('#playerbtn_2', 'btn-danger', 'btn-primary');
+				document.getElementById('playerbtn_2').click();
+				break;
+			case 'e':
+				toggleColor('#playerbtn_3', 'btn-primary', 'btn-danger');
+				await delay(200);
+				toggleColor('#playerbtn_3', 'btn-danger', 'btn-primary');
+				document.getElementById('playerbtn_3').click();
+				break;
+			case 'r':
+				toggleColor('#playerbtn_4', 'btn-primary', 'btn-danger');
+				await delay(200);
+				toggleColor('#playerbtn_4', 'btn-danger', 'btn-primary');
+				document.getElementById('playerbtn_4').click();
+				break;
+			case 't':
+				toggleColor('#playerbtn_5', 'btn-primary', 'btn-danger');
+				await delay(200);
+				toggleColor('#playerbtn_5', 'btn-danger', 'btn-primary');
+				document.getElementById('playerbtn_5').click();
+				break;
+			case 'y':
+				toggleColor('#playerbtn_6', 'btn-primary', 'btn-danger');
+				await delay(200);
+				toggleColor('#playerbtn_6', 'btn-danger', 'btn-primary');
+				document.getElementById('playerbtn_6').click();
+				break;
+			case 'u':
+				toggleColor('#playerbtn_7', 'btn-primary', 'btn-danger');
+				await delay(200);
+				toggleColor('#playerbtn_7', 'btn-danger', 'btn-primary');
+				document.getElementById('playerbtn_7').click();
 				break;
 		}
 	}

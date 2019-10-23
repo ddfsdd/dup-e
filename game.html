@@ -2,20 +2,15 @@
 <html>
 	<head>
 		<title>DupMe</title>
-		<link rel="stylesheet" href="main.css">
-		<link rel="stylesheet" href="node_modules/skeleton-css/css/skeleton.css">
-
-		<!-- Basic Page -->
-		<meta charset="UTF-8" />
-
 		<!-- Specific Metas-->
+		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
 		<!-- CSS -->
-		<link rel="stylesheet" href="../node_modules/skeleton-css/css/normalize.css" />
-		<link rel="stylesheet" href="../node_modules/skeleton-css/css/skeleton.css" />
-		<link rel="stylesheet" href="custom.css" />
+		<link rel="stylesheet" href="node_modules/skeleton-css/css/normalize.css" />
+		<link rel="stylesheet" href="node_modules/skeleton-css/css/skeleton.css" />
+		<link rel="stylesheet" href="style.css" />
 		<link
 			rel="stylesheet"
 			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -115,39 +110,7 @@
 		------ Modal ------
 		------------------>
 
-		<div class="modal fade" id="modalWaitForRematch" role="dialog">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 id="meme_result" class="modal-title"></h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body">
-						<p id="meme_message">Please wait while your opponent decides for a rematch</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal" id="modalWaitForRematch_close">Close</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="modal fade " id="modalReplyForRematch" role="dialog">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 id="meme_result" class="modal-title"></h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body">
-						<p id="modalReplyForRematch-body"></p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					</div>
-				</div>
-			</div>
-		</div>
+		
 
 		<div id="modal_rematchRequest" class="w3-modal">
 			<div class="w3-modal-content">
@@ -197,7 +160,13 @@
 
 		<div class="footer">
 			<div style="float:right;">
-				<button id="switch-lang">Switch Language</button>
+				<div class="row" style="float:right;bottom:0">
+					<button id="muted_btn"></button>
+					<button id="switch-lang">
+						<h6 lang="en">EN</h6>
+						<h6 lang="th">TH</h6>
+					</button>
+				</div>
 			</div>
 		</div>
 		
