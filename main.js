@@ -107,7 +107,7 @@
       for(let i =0; i< line.length;i++){
         if(i==textTocheckWith.length){break;}
             if(textTocheckWith[i]==line[i]){
-              this.score = points + pernote+bonusMultiplier*combo;
+              this.score += points + pernote+bonusMultiplier*combo;
               combo++;
             }else {
               combo = 0;
@@ -391,6 +391,11 @@
       player.score = 0;
       player.setReceiver(false);
       timer.stopAndReset();
+      $('#score').text(player.getScore());
+      socket.emit('updateScore', {
+				senderScore: player.getScore(),
+				room: game.getRoomId(),
+			});
 
     player.setCurrentTurn(true);
     timer.setAndStart('make');
@@ -416,7 +421,12 @@
     player.score = 0;
     player.setReceiver(false);
     timer.stopAndReset();
-
+    $('#score').text(player.getScore());
+    socket.emit('updateScore', {
+      senderScore: player.getScore(),
+      room: game.getRoomId(),
+    });
+    
     game.moves -= 1;
     player.setCurrentTurn(false);
   });
