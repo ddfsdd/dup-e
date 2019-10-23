@@ -17,13 +17,17 @@ let rooms = 0;
 app.use(express.static('.'));
 
 //for http request localhost:5000/game
+app.get('/', (req, res) => {
+	res.sendFile(path.join(__dirname, 'home.html'));
+});
+
 app.get('/game', (req, res) => {
-    res.sendFile(path.join(__dirname, 'game.html'));
+	res.sendFile(path.join(__dirname, 'game.html'));
 });
 
 //for http request localhost:5000/server
 app.get('/server', (req, res) => {
-  res.sendFile(path.join(__dirname, 'serverapp.html'));
+	res.sendFile(path.join(__dirname, 'serverapp.html'));
 });
 
 //array for tracking every access into page
@@ -35,218 +39,209 @@ let IdRoomPlayer = {};
 
 //connect with serverapp.js
 var serverapp = io.of('/server');
-serverapp.on('connection', (socket) => {
-  console.log('Server App Opened');
-  socket.on('reset', (data) => {
-    
-    //client.to(data.room).emit('reset');
-    var roomSocket = client.adapter.rooms[data.room].sockets;
-    console.log(Object.keys(roomSocket));
-    var clientInRoom = Object.keys(roomSocket);
-    console.log(`reset ${data.room}`);
-    var whoFirst = Math.floor(Math.random() * 2);
-    console.log(clientInRoom[0]);
-    client.to(clientInRoom[0]).emit('reset');
-    client.to(clientInRoom[1]).emit('reset');
-    if(whoFirst===0){
-      //broadcast.to= to other player
-      //emit is to the player that calls the event
-      client.to(clientInRoom[0]).emit('player1', {});
-      client.to(clientInRoom[1]).emit('player2', {});
-    }
-    else{
-      client.to(clientInRoom[1]).emit('player1', {});      
-      client.to(clientInRoom[0]).emit('player2', {});
-    }
-  });
+serverapp.on('connection', socket => {
+	console.log('Server App Opened');
+	socket.on('reset', data => {
+		//client.to(data.room).emit('reset');
+		var roomSocket = client.adapter.rooms[data.room].sockets;
+		console.log(Object.keys(roomSocket));
+		var clientInRoom = Object.keys(roomSocket);
+		console.log(`reset ${data.room}`);
+		var whoFirst = Math.floor(Math.random() * 2);
+		console.log(clientInRoom[0]);
+		client.to(clientInRoom[0]).emit('reset');
+		client.to(clientInRoom[1]).emit('reset');
+		if (whoFirst === 0) {
+			//broadcast.to= to other player
+			//emit is to the player that calls the event
+			client.to(clientInRoom[0]).emit('player1', {});
+			client.to(clientInRoom[1]).emit('player2', {});
+		} else {
+			client.to(clientInRoom[1]).emit('player1', {});
+			client.to(clientInRoom[0]).emit('player2', {});
+		}
+	});
 });
 
 //connect with main.js
 var client = io.of('/game');
 //when there's a connection from a client
-client.on('connection', (socket) => {
-    let length = usersOnline.push(socket);
-    //eg. socket.id = 5oYZNCfuCkeVPfC0AAAA, new one for every page reload
+client.on('connection', socket => {
+	let length = usersOnline.push(socket);
+	//eg. socket.id = 5oYZNCfuCkeVPfC0AAAA, new one for every page reload
 
-    console.log('Number of people accessing web: ' + length);
-    serverapp.emit('usersOnline', length);
-    //socket.on('event',function) executes funtion when event is triggered
-    //socket.emit('event',data) emits data to client who invoked event
-    //socket.broadcast.to(room) broadcast event to everyone in room except person who sent the event
+	console.log('Number of people accessing web: ' + length);
+	serverapp.emit('usersOnline', length);
+	//socket.on('event',function) executes funtion when event is triggered
+	//socket.emit('event',data) emits data to client who invoked event
+	//socket.broadcast.to(room) broadcast event to everyone in room except person who sent the event
 
-    //if user leaves page
-    socket.on('disconnect', function() {
-      var i = usersOnline.indexOf(socket);
-      usersOnline.splice(i, 1);
-      socket.id
-      console.log('Number of people accessing web: ' + usersOnline.length);
-      serverapp.emit('usersOnline', usersOnline.length);
+	//if user leaves page
+	socket.on('disconnect', function() {
+		var i = usersOnline.indexOf(socket);
+		usersOnline.splice(i, 1);
+		socket.id;
+		console.log('Number of people accessing web: ' + usersOnline.length);
+		serverapp.emit('usersOnline', usersOnline.length);
 
-      let roomnum = 0;
-      let playername;
-      //if there is a socket id in the object
-      //to prevent crash
-      if(IdRoomPlayer[socket.id]){
-        roomnum = IdRoomPlayer[socket.id][0];
-        playername = IdRoomPlayer[socket.id][1];
-        //if there is a room in the object
-        //to prevent crash
-        if(playersOnline[roomnum]){
-          i = playersOnline[roomnum].indexOf(playername);
-          playersOnline[roomnum].splice(i,1);
-        }
-      }
-      console.log(IdRoomPlayer);
-      serverapp.emit('IdRoomPlayer', IdRoomPlayer);
-      console.log(playersOnline);
-      serverapp.emit('playersOnline', playersOnline);
-    });
+		let roomnum = 0;
+		let playername;
+		//if there is a socket id in the object
+		//to prevent crash
+		if (IdRoomPlayer[socket.id]) {
+			roomnum = IdRoomPlayer[socket.id][0];
+			playername = IdRoomPlayer[socket.id][1];
+			//if there is a room in the object
+			//to prevent crash
+			if (playersOnline[roomnum]) {
+				i = playersOnline[roomnum].indexOf(playername);
+				playersOnline[roomnum].splice(i, 1);
+			}
+		}
+		console.log(IdRoomPlayer);
+		serverapp.emit('IdRoomPlayer', IdRoomPlayer);
+		console.log(playersOnline);
+		serverapp.emit('playersOnline', playersOnline);
+	});
 
-    // Create a new game room and notify the creator of game.
-    //data that is passed into emit event 'createGame' is passed to here
-    socket.on('createGame', (data) => {
-        socket.join(`room-${++rooms}`);
+	// Create a new game room and notify the creator of game.
+	//data that is passed into emit event 'createGame' is passed to here
+	socket.on('createGame', data => {
+		socket.join(`room-${++rooms}`);
 
-        //update playersOnline
-        //store socket id for that session with player name
-        IdRoomPlayer[socket.id] = [`room-${rooms}`,data.name];
-        playersOnline[`room-${rooms}`] = [data.name];
-        console.log(IdRoomPlayer);
-        serverapp.emit('IdRoomPlayer', IdRoomPlayer);
-        console.log(playersOnline);
-        serverapp.emit('playersOnline', playersOnline);
+		//update playersOnline
+		//store socket id for that session with player name
+		IdRoomPlayer[socket.id] = [`room-${rooms}`, data.name];
+		playersOnline[`room-${rooms}`] = [data.name];
+		console.log(IdRoomPlayer);
+		serverapp.emit('IdRoomPlayer', IdRoomPlayer);
+		console.log(playersOnline);
+		serverapp.emit('playersOnline', playersOnline);
 
-        //joining room in socket with string room name
-        socket.emit('newGame', { name: data.name, room: `room-${rooms}` });
-    });
+		//joining room in socket with string room name
+		socket.emit('newGame', { name: data.name, room: `room-${rooms}` });
+	});
 
-    // Connect the Player 2 to the room he requested. Show error if room full.
-    socket.on('joinGame', function (data) {
-        var room = io.nsps['/game'].adapter.rooms[data.room];
-        //access object property via rooms['key']
-        if (room && room.length === 1) {
-            socket.join(data.room);
+	// Connect the Player 2 to the room he requested. Show error if room full.
+	socket.on('joinGame', function(data) {
+		var room = io.nsps['/game'].adapter.rooms[data.room];
+		//access object property via rooms['key']
+		if (room && room.length === 1) {
+			socket.join(data.room);
 
-            //update playersOnline
-            //store socket id for that session with player name
-            IdRoomPlayer[socket.id] = [`room-${rooms}`,data.name];
-            playersOnline[data.room].push(data.name);
-            console.log(IdRoomPlayer);
-            serverapp.emit('IdRoomPlayer', IdRoomPlayer);
-            console.log(playersOnline);
-            serverapp.emit('playersOnline', playersOnline);
+			//update playersOnline
+			//store socket id for that session with player name
+			IdRoomPlayer[socket.id] = [`room-${rooms}`, data.name];
+			playersOnline[data.room].push(data.name);
+			console.log(IdRoomPlayer);
+			serverapp.emit('IdRoomPlayer', IdRoomPlayer);
+			console.log(playersOnline);
+			serverapp.emit('playersOnline', playersOnline);
 
-          var whoFirst = Math.floor(Math.random() * 2);
-          console.log(whoFirst);
-          
-          if(whoFirst===0){
+			var whoFirst = Math.floor(Math.random() * 2);
+			console.log(whoFirst);
 
-            //broadcast.to= to other player
-            //emit is to the player that calls the event
-          socket.broadcast.to(data.room).emit('player1', {});
-          socket.emit('player2', { name: data.name, room: data.room });
-          }
-          else{
-            socket.broadcast.to(data.room).emit('player2', {});
-            socket.emit('player1', { name: data.name, room: data.room });
-          }
-        
-        } else {
-            socket.emit('err', { message: 'Sorry, The room is full!' });
-        }
-    });
-    /**
-       * Handle the turn played by either player and notify the other.
-       */
-    socket.on('playTurn', (data) => {
-      console.log("hihi");
-        socket.broadcast.to(data.room).emit('turnPlayed', {
-            line: data.line
-        });
-      console.log(data.room);
-    });
-    socket.on('ping', (data) => {
-      console.log("hihi-ping");
-    });
-    /**
-       * Notify the players about the victor.
-       */
+			if (whoFirst === 0) {
+				//broadcast.to= to other player
+				//emit is to the player that calls the event
+				socket.broadcast.to(data.room).emit('player1', {});
+				socket.emit('player2', { name: data.name, room: data.room });
+			} else {
+				socket.broadcast.to(data.room).emit('player2', {});
+				socket.emit('player1', { name: data.name, room: data.room });
+			}
+		} else {
+			socket.emit('err', { message: 'Sorry, The room is full!' });
+		}
+	});
+	/**
+	 * Handle the turn played by either player and notify the other.
+	 */
+	socket.on('playTurn', data => {
+		console.log('hihi');
+		socket.broadcast.to(data.room).emit('turnPlayed', {
+			line: data.line,
+		});
+		console.log(data.room);
+	});
+	socket.on('ping', data => {
+		console.log('hihi-ping');
+	});
+	/**
+	 * Notify the players about the victor.
+	 */
 
-       //for live score update
+	//for live score update
 	socket.on('updateScore', data => {
 		socket.broadcast.to(data.room).emit('serverToOppScore', { senderScore: data.senderScore });
 	});
 	socket.on('oppScoreBackToServer', data => {
 		socket.broadcast.to(data.room).emit('updateOppScore', { oppScore: data.responseScore });
-  });
-  
-  socket.on('gameEnded', (data) => {
-        //evaluate winner
-        socket.broadcast.to(data.room).emit('evalScore',{oppScore: data.score});
-          console.log(data.score);
+	});
 
-  });
+	socket.on('gameEnded', data => {
+		//evaluate winner
+		socket.broadcast.to(data.room).emit('evalScore', { oppScore: data.score });
+		console.log(data.score);
+	});
 
-    // socket.on('evalScore', (data2) => {
-    //   console.log('score gottwn.');
-    //   let winner = data.score > data2.score ? 'player 1':'player 2';
-    //   const m = `The Winner is ${winner}`;
-    //   //tell two players at the same time who is the winner
-    //   socket.broadcast.to(data.room).emit('gameEnd',{message:m});
-    //   socket.emit('gameEnd',{message:m});
-    // });
+	// socket.on('evalScore', (data2) => {
+	//   console.log('score gottwn.');
+	//   let winner = data.score > data2.score ? 'player 1':'player 2';
+	//   const m = `The Winner is ${winner}`;
+	//   //tell two players at the same time who is the winner
+	//   socket.broadcast.to(data.room).emit('gameEnd',{message:m});
+	//   socket.emit('gameEnd',{message:m});
+	// });
 
-    socket.on('announceWinner',(data)=>{
-      socket.broadcast.to(data.room).emit('evalScore2',{oppWinStatus: data.oppWinStatus});
+	socket.on('announceWinner', data => {
+		socket.broadcast.to(data.room).emit('evalScore2', { oppWinStatus: data.oppWinStatus });
 
-      //remove room and its players out of playersOnline & update
-      delete playersOnline[data.room];
-      console.log(playersOnline);
-      serverapp.emit('playersOnline', playersOnline);
-    });
-    var randomFirstFlipInBetween = true;
-    socket.on('resetRcvd',(data)=>{
-      console.log('reset received! by '+socket.id);
-      console.log('moves :' + data.moves);
-      console.log('score :' + data.score);
-      console.log("T");
-      
-      var room = client.adapter.rooms[data.room];
-      if(randomFirstFlipInBetween){
-        io.to(socket.id).emit('player1');
-        console.log('player 1 rndm emitted');
-        
-      }else{
-        io.to(socket.id).emit('player2');
-        console.log('player 2 rndm emitted');
-      }
-      randomFirstFlipInBetween = !randomFirstFlipInBetween;
-     // serverapp.emit('resetComplete',data);
-    });
-  //added
-  socket.on('rematchRequest',(data)=>{
-    console.log('forwarding rematch'+data.room);
-    socket.broadcast.to(data.room).emit('rematchRequestReply',{rematch: data.rematch});
-  });
-  socket.on('rematchReply',(data)=>{
-    console.log('forwarding reply');
-    if(data.rematch== true){
-      if(data.oppWinStatus=='W'){
-         socket.broadcast.to(data.room).emit('player1', {});
-          socket.emit('player2', { name: data.name, room: data.room });
-        }
-        else{
-          socket.broadcast.to(data.room).emit('player2', {});
-          socket.emit('player1', { name: data.name, room: data.room });
-        }
-    }else{
-      socket.broadcast.to(data.room).emit('rematchReplyNo', {});
-    }
- 
-  })
+		//remove room and its players out of playersOnline & update
+		delete playersOnline[data.room];
+		console.log(playersOnline);
+		serverapp.emit('playersOnline', playersOnline);
+	});
+	var randomFirstFlipInBetween = true;
+	socket.on('resetRcvd', data => {
+		console.log('reset received! by ' + socket.id);
+		console.log('moves :' + data.moves);
+		console.log('score :' + data.score);
+		console.log('T');
+
+		var room = client.adapter.rooms[data.room];
+		if (randomFirstFlipInBetween) {
+			io.to(socket.id).emit('player1');
+			console.log('player 1 rndm emitted');
+		} else {
+			io.to(socket.id).emit('player2');
+			console.log('player 2 rndm emitted');
+		}
+		randomFirstFlipInBetween = !randomFirstFlipInBetween;
+		// serverapp.emit('resetComplete',data);
+	});
+	//added
+	socket.on('rematchRequest', data => {
+		console.log('forwarding rematch' + data.room);
+		socket.broadcast.to(data.room).emit('rematchRequestReply', { rematch: data.rematch });
+	});
+	socket.on('rematchReply', data => {
+		console.log('forwarding reply');
+		if (data.rematch == true) {
+			if (data.oppWinStatus == 'W') {
+				socket.broadcast.to(data.room).emit('player1', {});
+				socket.emit('player2', { name: data.name, room: data.room });
+			} else {
+				socket.broadcast.to(data.room).emit('player2', {});
+				socket.emit('player1', { name: data.name, room: data.room });
+			}
+		} else {
+			socket.broadcast.to(data.room).emit('rematchReplyNo', {});
+		}
+	});
 });
 let port = process.env.PORT;
-if (port == null || port == "") {
-  port = 5000;
+if (port == null || port == '') {
+	port = 5000;
 }
 server.listen(port);
