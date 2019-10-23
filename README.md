@@ -1,6 +1,6 @@
-# Tic Tac Toe
+# Dupme
 
-An implementation of the tic tac toe game using Socket.IO. 
+An example of Socket game for netcentric project
 
 To run this game: 
 
@@ -10,6 +10,7 @@ To run this game:
 
 3. Run `npm start`
 
-4. Go to http://localhost:5000/
+4. Go to http://localhost:5000/game for game
+http://localhost:5000/game for host
 
 ## Screenshots
