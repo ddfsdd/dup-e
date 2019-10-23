@@ -1,0 +1,108 @@
+/*for the whole web*/
+.container {
+	width: 60%;
+	border: 3px solid black;
+	padding: 40px 0px;
+	margin: 30px auto;
+}
+
+.mini-box {
+	border: 2px solid black;
+	padding: 10px;
+	margin: 10px auto;
+}
+
+body {
+	margin: 0;
+}
+canvas {
+	width: 100%;
+	height: 100%;
+}
+section.jumbotron {
+	background-color: black;
+	color: wheat;
+}
+
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: white;
+	text-align: center;
+}
+
+/*for the menu*/
+.row {
+	padding: 0px 30px 20px;
+}
+
+/*for the game*/
+.player_button {
+	padding: 30px 40px 30px 30px;
+	font-size: 20px;
+}
+.opponent_button {
+	padding: 30px 40px 30px 30px;
+	font-size: 20px;
+}
+.game {
+	padding-top: 80px;
+	padding-bottom: 80px;
+}
+
+/*loader*/
+.loader {
+	border: 3px solid #0e0303; /* Light grey */
+	border-top: 3px solid #f2f5f7; /* Blue */
+	border-radius: 50%;
+	width: 15px;
+	height: 15px;
+	animation: spin 2s linear infinite;
+	margin: 0px;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+/*stopwatch*/
+.stopwatch {
+	display: inline-block;
+	background-color: white;
+	border: 1px solid #eee;
+	padding: 5px;
+	margin: 5px;
+}
+.stopwatch span {
+	font-weight: bold;
+	display: block;
+}
+.stopwatch a {
+	padding-right: 5px;
+	text-decoration: none;
+}
+
+/*for various use*/
+.center {
+	margin: 0 auto;
+}
+
+.division_line {
+	background: #d3d3d3;
+	height: 1px;
+	width: 100%;
+}
+
+/* language switch.
+body:not(.en) :lang(en),
+body:not(.jp) :lang(jp),
+body:not(.th) :lang(th) {
+	display: none;
+} */

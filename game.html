@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DupMe</title>
+		<link rel="stylesheet" href="main.css">
+		<link rel="stylesheet" href="node_modules/skeleton-css/css/skeleton.css">
+
+		<!-- Basic Page -->
+		<meta charset="UTF-8" />
+
+		<!-- Specific Metas-->
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="../node_modules/skeleton-css/css/normalize.css" />
+		<link rel="stylesheet" href="../node_modules/skeleton-css/css/skeleton.css" />
+		<link rel="stylesheet" href="custom.css" />
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+			crossorigin="anonymous"
+		/>
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+
+
+	</head>
+	<body class ="en">
+	
+			<div class="menu">
+				<section class="jumbotron" style="text-align: center;">
+					<h2 lang="en">Welcome to DupMe the Game</h2>
+					<h2 lang="th">ยินดีต้อนรับสู่เกม กดตามฉันสิ อิอิ</h2>
+					<h2 lang="jp"></h2>
+				</section>
+				<br />
+				<div class="container" style="padding:60px 0px">
+					<div class="row" style="padding-bottom:40px;">
+						<div class="six columns">
+							<label for="nameNew">
+								<h6 lang="en">Player Name</h6>
+								<h6 lang="th">ชื่อผู้เล่น</h6>
+							</label>
+							<input class="u-full-width" type="text" id="nameNew" required />
+						</div>
+						<div class="six columns">
+							<label for="room" lang="en">Room-ID</label>
+							<label for="room" lang="th">เลขที่ห้อง</label>
+							<input class="u-full-width" type="text" id="room" />
+						</div>
+					</div>
+					<div class="row">
+						<button id="new" class="six columns btn-primary">
+							<h6 lang="en">Create new Game</h6>
+							<h6 lang="th">สร้างเกมใหม่</h6>
+						</button>
+						<button id="join" class="six columns btn-primary">
+							<h6 lang="en">Join Game</h6>
+							<h6 lang="th">เข้าร่วมเกม</h6>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="gameBoard" style="display: none;">
+				<section class="jumbotron"></section>
+				<div class="container">
+					<div class="row">
+						<h2 id="userHello" class="mini-box"></h2>
+						<h4 id="turn" class="four columns mini-box"></h4>
+						<div id="display" style="display: none;"></div>
+						<div class="loader"></div>
+					</div>
+	
+					<section>
+						<div class="row">
+							<div class="six columns">
+								<div class="row">
+									<h1 class="u-full-width" style="text-align: center;">
+										Your Tile
+									</h1>
+								</div>
+								<div class="row">
+									<div class="btn-group center">
+										<div id="player"></div>
+									</div>
+								</div>
+								<div class="row">
+									<h1 id="score" class="center mini-box">0</h1>
+								</div>
+							</div>
+							<div class="six columns">
+								<div class="row">
+									<h1 class="u-full-width" style="text-align: center;">Opponent Tile</h1>
+								</div>
+								<div class="row">
+									<div class="btn-group center">
+										<div id="opponentPlayer"></div>
+									</div>
+								</div>
+								<div class="row">
+									<h1 id="score_opp" class="center mini-box">0</h1>
+								</div>
+							</div>
+						</div>
+					</section>
+					<br />
+					<div class="row">
+						<div id="" class="six columns boxes" style="margin: 0 auto; position:static;"></div>
+					</div>
+					<div id="" class="stopwatch center"></div>
+				</div>
+			</div>
+			<!----------------
+		------ Modal ------
+		------------------>
+
+		<div class="modal fade" id="modalWaitForRematch" role="dialog">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 id="meme_result" class="modal-title"></h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<p id="meme_message">Please wait while your opponent decides for a rematch</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="modalWaitForRematch_close">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade " id="modalReplyForRematch" role="dialog">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 id="meme_result" class="modal-title"></h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<p id="modalReplyForRematch-body"></p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="modal_rematchRequest" class="w3-modal">
+			<div class="w3-modal-content">
+			  <header class="w3-container w3-teal"> 
+				<span onclick="document.getElementById('modal_rematchRequest').style.display='none'" 
+				class="w3-button w3-display-topright">&times;</span>
+				<h2>Rematch?</h2>
+			  </header>
+			  <div class="w3-container">
+				<p>Say yes to rematch, winner goes first.</p>
+			  </div>
+			  <footer class="w3-container w3-teal">
+				<button type="button" id="modal_rematchRequestYes" class="btn-btn-default">Rematch</button>
+				<button type="button" id="modal_rematchRequestNo"class="btn btn-default">Close</button>
+			  </footer>
+			</div>
+		  </div>
+
+		  <div id="modal_WaitForRematch" class="w3-modal">
+			<div class="w3-modal-content">
+			  <header class="w3-container w3-teal"> 
+				<span onclick="document.getElementById('modal_WaitForRematch').style.display='none'" 
+				class="w3-button w3-display-topright">&times;</span>
+				<h2>Please Wait For rematch</h2>
+			  </header>
+			  <footer class="w3-container w3-teal">
+				<button type="button"class="btn btn-default" onclick="document.getElementById('modal_WaitForRematch').style.display='none'" >Close</button>
+			  </footer>
+			</div>
+		  </div>
+		  <div id="modal_replyForRematch" class="w3-modal">
+			<div class="w3-modal-content">
+			  <header class="w3-container w3-teal"> 
+				<span onclick="document.getElementById('modal_replyForRematch').style.display='none'" 
+				class="w3-button w3-display-topright">&times;</span>
+				<h2>Rematch?</h2>
+			  </header>
+			  <div class="w3-container">
+				<p>Say yes to rematch, winner goes first.</p>
+			  </div>
+			  <footer class="w3-container w3-teal">
+				<button type="button" id="modal_replyForRematchYes" class="btn-btn-default">Rematch</button>
+				<button type="button" id="modal_replyForRematchNo"class="btn btn-default">Close</button>
+			  </footer>
+			</div>
+		  </div>
+
+		<div class="footer">
+			<div style="float:right;">
+				<button id="switch-lang">Switch Language</button>
+			</div>
+		</div>
+		
+		<!--import jquery/bootstrap/socket-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<!--import three-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/109/three.js"></script>
+		<!--import sound-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.core.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.spatial.min.js"></script>
+		<!--import main.js-->
+		<script src="main.js"></script>
+	</body>
+</html>
