@@ -15,6 +15,8 @@
   var actualFollowMoveText ='';
   var oppWinStatus = '';
   const socket = io.connect('/game');
+  var oppname='';
+  var oppScoreTest = 0;
 /////////////////Initialize document//////////////////////
   $(document).ready(function() {
 		$('.player_button').on({
@@ -379,12 +381,10 @@
 	 * This event is received when opponent connects to the room.
 	 */
   socket.on('player1', (data) => {
-    const message = `Hello, ${player.getPlayerName()}`;
-    $('#userHello').html(message);
     if(!game){
         game = new Game(data.room);
 
-        game.displayBoard(message);
+        game.displayBoard('');
       }
 
       game.moves = 0;
@@ -403,18 +403,32 @@
     
   });
 
+    /**For playername registration */
+    socket.on('regOppPlayerName',(data)=>{
+      console.log(data.name);
+      
+      oppname = data.name;
+      var message = 'Hello '+player.getPlayerName()+', you are up against '+data.name+'.';
+      $('#userHello').html(message);
+      socket.emit('regOppPlayerNameReply',{name: player.getPlayerName(), room:game.getRoomId()});
+    });
+  
+    socket.on('regOppPlayerNameReply',(data)=>{
+      oppname = data.name;
+      var message = 'Hello '+player.getPlayerName()+', you are up against '+data.name+'.';
+      $('#userHello').html(message);
+      });
+  
   /**
 	 * Joined the game, so player is P2(O).
 	 * This event is received when P2 successfully joins the game room.
 	 */
   socket.on('player2', (data) => {
-    const message = `Hello, ${data.name}`;
-      $(`#hihi`).text('Player2 regis');
     // Create game for player 2
   if(!game){
       game = new Game(data.room);
 
-      game.displayBoard(message);
+      game.displayBoard('');
     }
 
     game.moves = 0;
@@ -458,8 +472,9 @@
     $('#turn').text('The game has ended.');
     var yourScore = player.getScore();
     var oppScore = data.oppScore;
-    $('#hihi').text(''+yourScore+', '+oppScore);
-   
+    var winLoseTieText = yourScore>oppScore ? "win": (yourScore<oppScore?"lose":"tie");
+    const message =
+    `'You, ${player.getPlayerName()}, ${winLoseTieText} against ${oppname} with your score of ${yourScore} vs ${oppScore}'`;
   if(yourScore>oppScore){
     $('#meme_result').html('Winner Winner Chicken Dinner');
 			$('#meme_message').html('เก่งดีนี่...');
@@ -477,13 +492,19 @@
   }
   
   document.getElementById('modal_WaitForRematch').style.display='block';
+  $('#modal_WaitForRematchBody1').text('Please Wait for rematch. \n'+message);
 
+  $('#modal_replyForRematchBody1').text('Say yes to rematch, winner goes first. \n'+message);
   socket.emit('announceWinner',{oppWinStatus:oppWinStatus,room:game.getRoomId()});
   });
 
   socket.on('evalScore2',(data)=>{
+      var yourScore = player.getScore();
       $('#turn').text('The game has ended.');
-
+      var winLoseTieText = yourScore>oppScore ? "win": (yourScore<oppScoreTest?"lose":"tie");
+      const message2 =
+      `'You, ${player.getPlayerName()}, ${winLoseTieText} against ${oppname} with your score of ${yourScore} vs ${oppScoreTest}'`;
+    
       var winStatus = data.oppWinStatus;
       var result = '';
       var message='';
@@ -499,7 +520,7 @@
 		 }
   
       
-    
+      $('#modal_rematchRequestBody1').text('Say yes to rematch, winner goes first. \n'+ message2);
       document.getElementById('modal_rematchRequest').style.display='block';
       timer.setAndStart('rematchRequest');
       $('#meme_result').html(result);
@@ -509,10 +530,15 @@
   	//for replying score back to live score.
 	socket.on('serverToOppScore', data => {
 		$('#score_opp').text(data.senderScore);
-		socket.emit('oppScoreBackToServer', { responseScore: player.getScore(), room: game.getRoomId() });
+    socket.emit('oppScoreBackToServer', { responseScore: player.getScore(), room: game.getRoomId() });
+    oppScore = data.senderScore;
+    console.log('oppScore '+oppScore);
 	});
 	socket.on('updateOppScore', data => {
-		$('#score_opp').html(data.oppScore);
+    $('#score_opp').html(data.oppScore);
+    oppScoreTest=data.oppScore;
+    console.log('oppScore '+oppScore);
+    
 	});
 
 
@@ -522,7 +548,7 @@
 
   socket.on('resetScore',(data)=>{
     alert("You're score is reset to " + data.score);
-    player.score = data.score;
+    player.score = parseInt(data.score);
     $('#score').text(player.getScore());
         //for live score update
       socket.emit('updateScore', {
@@ -542,9 +568,9 @@
   socket.on('rematchRequestReply',(data)=>{
     console.log('rematchRequestReply');
     document.getElementById('modal_WaitForRematch').style.display='none';
-    timer.setAndStart("rematchReply");
-    $('#modalReplyForRematch').modal('show');
+   
     if(data.rematch){
+      timer.setAndStart("rematchReply");
       document.getElementById('modal_replyForRematch').style.display='block';
     
     }else{
@@ -560,7 +586,8 @@
   /**Timer*/
   /*Stopwatch class (via var timerAnimate) refers to the actual timer countdown animation,
   while Timer class handles timeout actions*/
-
+  var modalTimeOutBody=$('#modal_TimeoutBody');
+  var modalTimeOut = document.getElementById('modal_Timeout');
   var reset;
   class Timer{
     constructor(){
@@ -607,7 +634,9 @@
     }
 
     doWhenTimeOut(){
-      alert('Timeout '+this.action+this.time);
+      $('#modal_TimeoutBody').text(('Timeout: '+this.action+', Duration: '+this.time+'ms'));
+      document.getElementById('modal_Timeout').style.display='block';
+    
       this.stopAndReset();
       if(this.action=='make'){
         game.playTurn('11111');

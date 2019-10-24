@@ -158,19 +158,27 @@ client.on('connection', socket => {
 			var whoFirst = Math.floor(Math.random() * 2);
 			console.log(whoFirst);
 
+			socket.broadcast.to(data.room).emit('regOppPlayerName',{name: data.name});
+	
 			if (whoFirst === 0) {
 				//broadcast.to= to other player
 				//emit is to the player that calls the event
-				socket.broadcast.to(data.room).emit('player1', {});
-				socket.emit('player2', { name: data.name, room: data.room });
+				socket.broadcast.to(data.room).emit('player1', {room:data.room});
+				socket.emit('player2',{room:data.room});
 			} else {
-				socket.broadcast.to(data.room).emit('player2', {});
-				socket.emit('player1', { name: data.name, room: data.room });
+				socket.broadcast.to(data.room).emit('player2', {room:data.room});
+				socket.emit('player1',{room:data.room});
 			}
-		} else {
+	} else {
 			socket.emit('err', { message: 'Sorry, The room is full!' });
 		}
 	});
+
+
+	socket.on('regOppPlayerNameReply',(data)=>{
+		socket.broadcast.to(data.room).emit('regOppPlayerNameReply',{name: data.name});
+		
+	})
 	/**
 	 * Handle the turn played by either player and notify the other.
 	 */

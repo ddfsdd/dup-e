@@ -61,7 +61,7 @@
 				<section class="jumbotron"></section>
 				<div class="container">
 					<div class="row">
-						<h2 id="userHello" class="mini-box"></h2>
+						<h4 id="userHello" class="four columns mini-box"></h4>
 						<h4 id="turn" class="four columns mini-box"></h4>
 						<div id="display" style="display: none;"></div>
 						<div class="loader"></div>
@@ -120,7 +120,7 @@
 				<h2>Rematch?</h2>
 			  </header>
 			  <div class="w3-container">
-				<p>Say yes to rematch, winner goes first.</p>
+				<p id="modal_rematchRequestBody1"></p>
 			  </div>
 			  <footer class="w3-container w3-teal">
 				<button type="button" id="modal_rematchRequestYes" class="btn-btn-default">Rematch</button>
@@ -134,8 +134,11 @@
 			  <header class="w3-container w3-teal"> 
 				<span onclick="document.getElementById('modal_WaitForRematch').style.display='none'" 
 				class="w3-button w3-display-topright">&times;</span>
-				<h2>Please Wait For rematch</h2>
+				<h2 >Please Wait For rematch</h2>
 			  </header>
+			  <div class="w3-container" >
+				<p id ='modal_WaitForRematchBody1'></p>
+			  </div>
 			  <footer class="w3-container w3-teal">
 				<button type="button"class="btn btn-default" onclick="document.getElementById('modal_WaitForRematch').style.display='none'" >Close</button>
 			  </footer>
@@ -149,11 +152,27 @@
 				<h2>Rematch?</h2>
 			  </header>
 			  <div class="w3-container">
-				<p>Say yes to rematch, winner goes first.</p>
+				<p  id="modal_replyForRematchBody1"></p>
 			  </div>
 			  <footer class="w3-container w3-teal">
 				<button type="button" id="modal_replyForRematchYes" class="btn-btn-default">Rematch</button>
 				<button type="button" id="modal_replyForRematchNo"class="btn btn-default">Close</button>
+			  </footer>
+			</div>
+		  </div>
+		  
+		  <div id="modal_Timeout" class="w3-modal">
+			<div class="w3-modal-content">
+			  <header class="w3-container w3-teal"> 
+				<span onclick="document.getElementById('modal_Timeout').style.display='none'" 
+				class="w3-button w3-display-topright">&times;</span>
+				<h2 >Timeout</h2>
+			  </header>
+			  <div class="w3-container" >
+				<p id ='modal_TimeoutBody'></p>
+			  </div>
+			  <footer class="w3-container w3-teal">
+				<button type="button"class="btn btn-default" onclick="document.getElementById('modal_Timeout').style.display='none'" >Close</button>
 			  </footer>
 			</div>
 		  </div>
