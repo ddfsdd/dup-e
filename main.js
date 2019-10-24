@@ -287,7 +287,7 @@
 		socket.emit('ping', {});
 		const name = $('#nameNew').val();
 		if (!name) {
-			alert('Please enter your name.');
+			$('#usernameAlert').click();
 			return;
 		}
 		//eg. name:'Kat'
@@ -886,4 +886,9 @@
 				break;
 		}
 	}
+	function toggleAlert() {
+		$('.alert').toggleClass('show out');
+		return false; // Keep close.bs.alert event from removing from DOM
+	}
+	$('#usernameAlert').on('click', toggleAlert);
 })();
