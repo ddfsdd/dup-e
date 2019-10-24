@@ -36,7 +36,18 @@ let usersOnline = [];
 let playersOnline = {};
 //object tracking id (a socket connection),room,player name
 let IdRoomPlayer = {};
-
+function findAnEmptyRoom(){
+	for(roomnum of Object.keys(playersOnline)){
+		console.log(roomnum);
+		
+		console.log('Testing room system'+ playersOnline[roomnum]);
+		
+		if(playersOnline[roomnum].length==0){
+			return roomnum;
+		}
+	}
+	return '';
+}
 //connect with serverapp.js
 var serverapp = io.of('/server');
 serverapp.on('connection', socket => {
@@ -124,19 +135,25 @@ client.on('connection', socket => {
 	// Create a new game room and notify the creator of game.
 	//data that is passed into emit event 'createGame' is passed to here
 	socket.on('createGame', data => {
-		socket.join(`room-${++rooms}`);
+		var room = findAnEmptyRoom();
+		if(room==''){
+			socket.join(`room-${++rooms}`);
+			room = `room-${rooms}`;
+		}else{
+			socket.join(room);
+		}
 
 		//update playersOnline
 		//store socket id for that session with player name
-		IdRoomPlayer[socket.id] = [`room-${rooms}`, data.name];
-		playersOnline[`room-${rooms}`] = [data.name];
+		IdRoomPlayer[socket.id] = [room, data.name];
+		playersOnline[room] = [data.name];
 		console.log(IdRoomPlayer);
 		serverapp.emit('IdRoomPlayer', IdRoomPlayer);
 		console.log(playersOnline);
 		serverapp.emit('playersOnline', playersOnline);
 
 		//joining room in socket with string room name
-		socket.emit('newGame', { name: data.name, room: `room-${rooms}` });
+		socket.emit('newGame', { name: data.name, room: room });
 	});
 
 	// Connect the Player 2 to the room he requested. Show error if room full.
@@ -148,7 +165,7 @@ client.on('connection', socket => {
 
 			//update playersOnline
 			//store socket id for that session with player name
-			IdRoomPlayer[socket.id] = [`room-${rooms}`, data.name];
+			IdRoomPlayer[socket.id] = [data.room, data.name];
 			playersOnline[data.room].push(data.name);
 			console.log(IdRoomPlayer);
 			serverapp.emit('IdRoomPlayer', IdRoomPlayer);
