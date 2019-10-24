@@ -30,3 +30,4 @@ ok 9 authen
 ok10 turn selection 
 ok 11 Time attack 
 ?? 12 Animation on the dupme title
+ok 13 Line share
