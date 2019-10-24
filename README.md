@@ -13,10 +13,6 @@ To run this game:
 4. Go to http://localhost:5000/game for game
 http://localhost:5000/game for host
 
-OR
-
-Go to https://rogerdudler.github.io/git-guide/ for live server.
-
 [ExtraList]
 ok 1 Keyboard
 ok 2 Sound button +bgm 
