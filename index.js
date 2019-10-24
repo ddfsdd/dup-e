@@ -239,8 +239,8 @@ client.on('connection', socket => {
 	socket.on('announceWinner', data => {
 		socket.broadcast.to(data.room).emit('evalScore2', { oppWinStatus: data.oppWinStatus });
 
-		//remove room and its players out of playersOnline & update
-		delete playersOnline[data.room];
+		// //remove room and its players out of playersOnline & update
+		// delete playersOnline[data.room];
 		console.log(playersOnline);
 		serverapp.emit('playersOnline', playersOnline);
 	});
