@@ -32,6 +32,24 @@ section.jumbotron {
 	background-color: white;
 	text-align: center;
 }
+.top {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 990;
+  }
+  .top2 {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 991;
+  }
+  .top3 {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 992;
+  }
 
 /*for the menu*/
 .row {
