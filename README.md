@@ -17,7 +17,16 @@ OR
 
 Go to https://rogerdudler.github.io/git-guide/ for live server.
 
-TO-DO List by DV.
-[extra]
-semi password for server
-
+[ExtraList]
+ok 1 Keyboard
+ok 2 Sound button +bgm 
+?? 3 Language
+?? 4 training ground 
+ok 5 server reset 
+?? 6 interactive button 
+ok 7 how to play 
+ok 8 alert 
+ok 9 authen 
+ok10 turn selection 
+ok 11 Time attack 
+?? 12 Animation on the dupme title

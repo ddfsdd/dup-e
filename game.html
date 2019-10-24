@@ -39,8 +39,8 @@
 						<input class="u-full-width" type="text" id="nameNew" required />
 					</div>
 					<div class="six columns">
-						<label for="room" lang="en">Room-ID</label>
-						<label for="room" lang="th">เลขที่ห้อง</label>
+						<label for="room" lang="en">Room-ID (for join only)</label>
+						<label for="room" lang="th">เลขที่ห้อง (สำหรับเข้าห้องอื่นเท่านั้น)</label>
 						<input class="u-full-width" type="text" id="room" />
 					</div>
 				</div>
@@ -66,10 +66,10 @@
 					</div>
 					<div class="six columns">
 						<label for="buttonNum">
-						<h6 lang="en">Button</h6>
-						<h6 lang="th">เลขที่ห้อง</h6>
+						<h6 lang="en" style="color: grey;">Button (Teaser!)</h6>
+						<h6 lang="th" style="color: grey;">เลขที่ห้อง (ยังไม่เปิดให้ใช้งาน)</h6>
 						</label>
-						<input class="u-full-width" type="number" min="5" max="7" id="buttonNum" placeholder="5-7"/>
+						<input class="u-full-width" type="number" min="5" max="7" id="buttonNum" placeholder="5-7" onkeypress="return false;"/>
 
 					</div>
 				</div>
@@ -225,6 +225,7 @@
 						<a href="home.html">Homepage</a>
 						<a href="testButtonPress.html">Training Ground</a>
 						<a href="howTo.html">How to play</a>
+						<a href="timeAttack.html">Single Player</a>
 					</div>
 					<a href="javascript:void(0);" class="icon" onclick="myFunction()">
 						<i class="fa fa-bars"></i>

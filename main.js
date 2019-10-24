@@ -1,5 +1,3 @@
-//* Added: rematchRequest onclick, html modal*/
-
 //Function immediately called
 //alert(message) jQuery display alert box with message
 (function init() {
@@ -110,9 +108,6 @@
 			this.score = 0;
 			this.receiver = false;
 		}
-
-		// Set the bit of the move played by the player
-		// tileValue - Bitmask used to set the recently played move.
 		updateScore(line, textTocheckWith) {
 			var textTocheckWith = textTocheckWith.split('');
 			var line = line.split('');
@@ -261,14 +256,6 @@
 					playBtnSound(j);
 				});
 			}
-			//first initialized
-			// for (let i = 0; i < 3; i++) {
-			//   tssssssshis.board.push(['', '', '']); //add the array as an element on board
-			//   for (let j = 0; j < 3; j++) {
-			//     $(`#button_${i}${j}`).on('click', tileClickHandler);
-			//     //set all buttons to listen for a click
-			//   }
-			// }
 		}
 		// Remove the menu from DOM, display the gameboard and greet the player.
 		displayBoard(message) {
@@ -291,10 +278,7 @@
 
 		// Send an update to the opponent to update their UI's tile
 		playTurn(line) {
-			//get string id of button eg. button_01
-
 			// Emit an event to update other player that you've played your turn.
-
 			socket.emit('playTurn', {
 				line: line,
 				room: this.getRoomId(),
@@ -307,15 +291,6 @@
 				score: player.getScore(),
 			});
 		}
-
-		// Announce the winner if the current client has won.
-		// Broadcast this on the room to let the opponent know
-		// End the game if the other player won.
-		endGame(message) {
-			alert(message);
-			location.reload();
-			//reload to menu
-		}
 	}
 	/////////////////FIN Game class//////////////////////
 
@@ -323,7 +298,6 @@
 	// Create a new game. Emit newGame event.
 	$('#new').on('click', () => {
 		//get value from input in html
-		socket.emit('ping', {});
 		const name = $('#nameNew').val();
 		if (!name) {
 			$.notify(
@@ -409,11 +383,6 @@
 		player.setCurrentTurn(false);
 	});
 
-	/**
-	 * If player creates the game, he'll be P1(X) and has the first turn.
-	 * This event is received when opponent connects to the room.
-	 */
-
 	socket.on('player1', data => {
 
 		if (data.roundNum) {
@@ -466,10 +435,6 @@
 		$('#userHello').html(message);
 	});
 
-	/**
-	 * Joined the game, so player is P2(O).
-	 * This event is received when P2 successfully joins the game room.
-	 */
 	socket.on('player2', data => {
 
 		if (data.roundNum) {
@@ -734,9 +699,6 @@
 	//timer
 	var Stopwatch = function(elem, options) {
 		var timer = createTimer(),
-			// startButton = createButton('start', start),
-			// stopButton = createButton('stop', stop),
-			// resetButton = createButton('reset', reset),
 			offset,
 			clock,
 			interval;
@@ -747,9 +709,6 @@
 
 		// append elements
 		elem.appendChild(timer);
-		// elem.appendChild(startButton);
-		// elem.appendChild(stopButton);
-		// elem.appendChild(resetButton);
 
 		// initialize
 		reset();

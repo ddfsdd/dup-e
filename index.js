@@ -2,13 +2,7 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
-//reference to express module is a function
-//express module can be used to create several apps
-
 const server = require('http').Server(app);
-//server is a class in http module
-//server object is made and executes app everytime it gets a request
-
 const io = require('socket.io')(server);
 //connect server to socket.io
 
@@ -54,7 +48,6 @@ var serverapp = io.of('/server');
 serverapp.on('connection', socket => {
 	console.log('Server App Opened');
 	socket.on('reset', data => {
-		//client.to(data.room).emit('reset');
 		var roomSocket = client.adapter.rooms[data.room].sockets;
 		console.log(Object.keys(roomSocket));
 		var clientInRoom = Object.keys(roomSocket);
@@ -227,15 +220,6 @@ client.on('connection', socket => {
 		socket.broadcast.to(data.room).emit('evalScore', { oppScore: data.score });
 		console.log(data.score);
 	});
-
-	// socket.on('evalScore', (data2) => {
-	//   console.log('score gottwn.');
-	//   let winner = data.score > data2.score ? 'player 1':'player 2';
-	//   const m = `The Winner is ${winner}`;
-	//   //tell two players at the same time who is the winner
-	//   socket.broadcast.to(data.room).emit('gameEnd',{message:m});
-	//   socket.emit('gameEnd',{message:m});
-	// });
 
 	socket.on('announceWinner', data => {
 		socket.broadcast.to(data.room).emit('evalScore2', { oppWinStatus: data.oppWinStatus });

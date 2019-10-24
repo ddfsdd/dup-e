@@ -145,12 +145,9 @@
 		startTimer(time) {
 			// timerAnimate.start();
 			this.time = time;
-			this.startTimerCountDown(time);
-			reset = window.setTimeout(this.doWhenTimeOut.bind(this), this.time);
-		}
-		startTimerCountDown(time) {
 			timerAnimate.setTime(time);
 			timerAnimate.timeDecrease();
+			reset = window.setTimeout(this.doWhenTimeOut.bind(this), this.time);
 		}
 		reset() {
 			if (typeof reset != 'undefined') {
@@ -160,7 +157,15 @@
 		doWhenTimeOut() {
             this.stopAndReset();
             playing = false;
-            
+			$.notify(
+				{
+					title: '<strong>Time is up!</strong> ',
+					message: 'Press start to play again',
+				},
+				{
+					type: 'danger',
+				}
+			);
 			}
 	}
 
@@ -188,8 +193,15 @@
                 $('#combo').text(combo);
             }
         }else{
-            console.log('press the start button');
-            
+			$.notify(
+				{
+					title: '<strong>Not yet!</strong> ',
+					message: 'Press the start button to start playing.',
+				},
+				{
+					type: 'danger',
+				}
+			);
         }
     }
     for (let j = 1; j <= 7; j++) {
@@ -203,11 +215,29 @@
         combo=0;
         $('#score').text(points);
         randomizer = ''+(Math.floor(Math.random() * 7)+1);
-        $('#replicate').text(randomizer);
+		$('#replicate').text(randomizer);
+		$.notify(
+			{
+				title: '<strong>Game start!</strong> ',
+				message: 'You have 30 seconds',
+			},
+			{
+				type: 'success',
+			}
+		);
     })
     $('#reset').on('click',function(){
         playing = false;
-        timer.stopAndReset();
+		timer.stopAndReset();
+		$.notify(
+			{
+				title: '<strong>Game stop!</strong> ',
+				message: 'You reset the game',
+			},
+			{
+				type: 'info',
+			}
+		);
     })
     //////////////////////
     function setSeqAndContent(seqNum,content){
