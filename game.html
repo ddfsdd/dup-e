@@ -55,18 +55,9 @@
 			</div>
 		</div>
 		<div class="gameBoard" style="display: none;">
-			<section class="jumbotron"></section>
-			<div class="container">
-				<div class="row">
-					<h2 id="userHello" class="mini-box"></h2>
-					<h4 id="turn" class="four columns mini-box"></h4>
-					<div id="display" style="display: none;"></div>
-					<div class="loader"></div>
-				</div>
-
-				<section>
+				<section class="jumbotron"></section>
+				<div class="container">
 					<div class="row">
-
 						<h4 id="userHello" class="four columns mini-box"></h4>
 						<h4 id="turn" class="four columns mini-box"></h4>
 						<div id="display" style="display: none;"></div>
@@ -90,37 +81,28 @@
 									<h1 id="score" class="center mini-box">0</h1>
 								</div>
 							</div>
-							<div class="row">
-								<div class="btn-group center">
-									<div id="player"></div>
+							<div class="six columns">
+								<div class="row">
+									<h1 class="u-full-width" style="text-align: center;">Opponent Tile</h1>
+								</div>
+								<div class="row">
+									<div class="btn-group center">
+										<div id="opponentPlayer"></div>
+									</div>
+								</div>
+								<div class="row">
+									<h1 id="score_opp" class="center mini-box">0</h1>
 								</div>
 							</div>
-							<div class="row">
-								<h1 id="score" class="center mini-box">0</h1>
-							</div>
 						</div>
-						<div class="six columns">
-							<div class="row">
-								<h1 class="u-full-width" style="text-align: center;">Opponent Tile</h1>
-							</div>
-							<div class="row">
-								<div class="btn-group center">
-									<div id="opponentPlayer"></div>
-								</div>
-							</div>
-							<div class="row">
-								<h1 id="score_opp" class="center mini-box">0</h1>
-							</div>
-						</div>
+					</section>
+					<br />
+					<div class="row">
+						<div id="" class="six columns boxes" style="margin: 0 auto; position:static;"></div>
 					</div>
-				</section>
-				<br />
-				<div class="row">
-					<div id="" class="six columns boxes" style="margin: 0 auto; position:static;"></div>
+					<div id="" class="stopwatch center"></div>
 				</div>
-				<div id="" class="stopwatch center"></div>
 			</div>
-		</div>
 		<!----------------
 		------ Modal ------
 		------------------>
@@ -196,6 +178,10 @@
 		  </div>
 
 		<div class="footer">
+			<div style="float:left;">
+				<a href="home.html" class="previous">&laquo; Back to Homepage</a>
+				<a href="game.html" class="previous">&laquo; Room selection</a>
+			</div>
 			<div style="float:right;">
 				<div class="row" style="float:right;bottom:0">
 					<button id="muted_btn">

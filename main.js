@@ -390,18 +390,7 @@
 				senderScore: player.getScore(),
 				room: game.getRoomId(),
 			});
-			game.displayBoard(message);
-		}
-
-		game.moves = 0;
-		player.score = 0;
-		player.setReceiver(false);
-		timer.stopAndReset();
-		$('#score').text(player.getScore());
-		socket.emit('updateScore', {
-			senderScore: player.getScore(),
-			room: game.getRoomId(),
-		});
+		
 
 		player.setCurrentTurn(true);
 		timer.setAndStart('make');
@@ -808,13 +797,8 @@
 		src: ['sfx/kira_theme.mp3'],
 		preload: true,
 		autoplay: true,
-<<<<<<< HEAD
-    loop: true,
-    volume:0.2
-=======
 		loop: true,
 		volume: 0.2,
->>>>>>> 5a2ea320f093613ade92cd8c64f261e0906cfeee
 	});
 	//drawww monster cardoo.
 	var FoC_theme = new Howl({
@@ -824,19 +808,11 @@
 	});
 	$('#muted_btn').on('click', () => {
 		if ($('#muted_btn').hasClass('toggled')) {
-<<<<<<< HEAD
-      $('.btn_img').attr('src', 'pic/symbol/unmuted.png');
-			kira_theme.mute(false);
-			FoC_theme.mute(false);
-		} else {
-      $('.btn_img').attr('src', '/pic/symbol/muted.png');
-=======
 			$('.btn_img').attr('src', 'pic/symbol/unmuted.png');
 			kira_theme.mute(false);
 			FoC_theme.mute(false);
 		} else {
 			$('.btn_img').attr('src', '/pic/symbol/muted.png');
->>>>>>> 5a2ea320f093613ade92cd8c64f261e0906cfeee
 			kira_theme.mute(true);
 			FoC_theme.mute(true);
     }
