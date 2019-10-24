@@ -61,7 +61,8 @@
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<strong>Warning!</strong> You forgot to input player name.
+						<strong>Warning!</strong>
+						<h6 id="gameAlertText"></h6>
 					</div>
 				</div>
 			</div>
@@ -73,7 +74,6 @@
 					<h4 id="userHello" class="four columns mini-box"></h4>
 					<h4 id="turn" class="four columns mini-box"></h4>
 					<div id="display" style="display: none;"></div>
-					<div class="loader"></div>
 				</div>
 
 				<section>
@@ -107,6 +107,30 @@
 							</div>
 						</div>
 					</div>
+					<section>
+						<div class="alert alert-success alert-dismissible fade out" role="alert" id="gameSuccessAlert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<strong>Your Turn!</strong>
+							<h6 id="gameAlertSuccess"></h6>
+						</div>
+						<div class="alert alert-info alert-dismissible fade out" role="alert" id="gameInfoAlert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<strong>Heyyy!</strong>
+							<h6 id="waitingAlertText"></h6>
+							<div class="loader"></div>
+						</div>
+						<div class="alert alert-danger alert-dismissible fade out" role="alert" id="gameDangerAlert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<strong>Nooooo!</strong>
+							<h6 id="gameAlertDanger"></h6>
+						</div>
+					</section>
 				</section>
 				<br />
 				<div class="row">

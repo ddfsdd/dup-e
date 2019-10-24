@@ -171,7 +171,8 @@
 				//getCurrentTurn returns boolean
 				//blocks other player
 				if (!player.getCurrentTurn() || !game) {
-					//alert('Its not your turn!');
+					$('#gameAlertDanger').html('Its not your turn');
+					toggleAlert('gameDangerAlert');
 					return;
 				}
 
@@ -208,6 +209,8 @@
 					var line = makeMoveText;
 					game.playTurn(line);
 					timer.stopAndReset();
+					$('#waitingAlertText').html('Waiting for opponent Turn.');
+					toggleAlert('gameInfoAlert');
 					//update my board
 					game.updateBoard(line);
 					makeMoveText = '';
@@ -287,7 +290,8 @@
 		socket.emit('ping', {});
 		const name = $('#nameNew').val();
 		if (!name) {
-			$('#usernameAlert').click();
+			$('#gameAlertText').html('You forgot to input player name.');
+			toggleAlert('usernameAlert');
 			return;
 		}
 		//eg. name:'Kat'
@@ -301,7 +305,8 @@
 		const roomID = $('#room').val();
 		//eg. room-1
 		if (!name || !roomID) {
-			alert('Please enter your name and game ID.');
+			$('#gameAlertText').html('Either player name or room id are missing.');
+			toggleAlert('usernameAlert');
 			return;
 		}
 		socket.emit('joinGame', { name, room: roomID });
@@ -313,27 +318,22 @@
 	$(`#modal_rematchRequestYes`).on('click', function() {
 		socket.emit('rematchRequest', { room: game.getRoomId(), rematch: true });
 		timer.stopAndReset();
-
 		document.getElementById('modal_rematchRequest').style.display = 'none';
 	});
 	$(`#modal_rematchRequestNo`).on('click', function() {
 		socket.emit('rematchRequest', { room: game.getRoomId(), rematch: false });
 		timer.stopAndReset();
-
 		document.getElementById('modal_rematchRequest').style.display = 'none';
 	});
 
 	$(`#modal_replyForRematchYes`).on('click', function() {
 		socket.emit('rematchReply', { room: game.getRoomId(), rematch: true, oppWinStatus: oppWinStatus });
 		timer.stopAndReset();
-		console.log('yes');
-
 		document.getElementById('modal_replyForRematch').style.display = 'none';
 	});
 	$(`#modal_replyForRematchNo`).on('click', function() {
 		socket.emit('rematchReply', { room: game.getRoomId(), rematch: false, oppWinStatus: oppWinStatus });
 		timer.stopAndReset();
-
 		document.getElementById('modal_replyForRematch').style.display = 'none';
 	});
 
@@ -365,7 +365,8 @@
 
 			game.displayBoard('');
 		}
-
+		$('#gameSuccessAlert').html('Type something for the opponent to follow.');
+		toggleAlert('gameSuccessAlert');
 		game.moves = 0;
 		player.score = 0;
 		player.setReceiver(false);
@@ -408,7 +409,8 @@
 
 			game.displayBoard('');
 		}
-
+		$('#waitingAlertText').html('You start second, waiting for opponent to make move.');
+		toggleAlert('gameInfoAlert');
 		game.moves = 0;
 		player.score = 0;
 		player.setReceiver(false);
@@ -610,7 +612,8 @@
 		doWhenTimeOut() {
 			$('#modal_TimeoutBody').text('Timeout: ' + this.action + ', Duration: ' + this.time + 'ms');
 			document.getElementById('modal_Timeout').style.display = 'block';
-
+			$('#waitingAlertText').html('Waiting for opponent turn, pay attention next time people.');
+			toggleAlert('gameInfoAlert');
 			this.stopAndReset();
 			if (this.action == 'make') {
 				game.playTurn('11111');
@@ -840,7 +843,7 @@
 	}
 	//for keypressed function
 	async function press(e) {
-		console.log(`${e.key}`);
+		//console.log(`${e.key}`);
 		switch (e.key) {
 			case 'q':
 				toggleColor('#playerbtn_1', 'btn-primary', 'btn-danger');
@@ -886,9 +889,8 @@
 				break;
 		}
 	}
-	function toggleAlert() {
-		$('.alert').toggleClass('show out');
+	function toggleAlert(id) {
+		$('#' + id).toggleClass('show out');
 		return false; // Keep close.bs.alert event from removing from DOM
 	}
-	$('#usernameAlert').on('click', toggleAlert);
 })();
