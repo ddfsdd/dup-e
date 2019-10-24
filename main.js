@@ -13,6 +13,7 @@
 	const socket = io.connect('/game');
 	var oppname = '';
 	var oppScoreTest = 0;
+	var roundNum=2;
 	/////////////////Initialize document//////////////////////
 	$(document).ready(function() {
 		$('.player_button').on({
@@ -190,7 +191,7 @@
 						game.moves++;
 						timer.stopAndReset();
 						player.setReceiver(false);
-						if (game.moves == 2) {
+						if (game.moves == roundNum) {
 							player.setCurrentTurn(false);
 							game.checkEnd();
 							return;
@@ -295,7 +296,11 @@
 			return;
 		}
 		//eg. name:'Kat'
-		socket.emit('createGame', { name });
+		console.log($('#roundNum').val());
+		if($('#roundNum').val()!=''){
+			roundNum = parseInt($('#roundNum').val());
+		}
+		socket.emit('createGame', { name ,roundNum:roundNum});
 		player = new Player(name);
 	});
 
@@ -360,6 +365,10 @@
 	 */
 
 	socket.on('player1', data => {
+		if(data.roundNum){
+			roundNum=data.roundNum;
+			console.log(roundNum+'P1');
+		}
 		if (!game) {
 			game = new Game(data.room);
 
@@ -403,6 +412,10 @@
 	 * This event is received when P2 successfully joins the game room.
 	 */
 	socket.on('player2', data => {
+		if(data.roundNum){
+			roundNum=data.roundNum;
+		}
+		console.log(roundNum+'P2');
 		// Create game for player 2
 		if (!game) {
 			game = new Game(data.room);
@@ -625,7 +638,7 @@
 			if (this.action == 'follow') {
 				game.moves++;
 				player.setReceiver(false);
-				if (game.moves == 2) {
+				if (game.moves == roundNum) {
 					player.setCurrentTurn(false);
 					game.checkEnd();
 					return;
