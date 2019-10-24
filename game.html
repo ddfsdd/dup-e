@@ -22,13 +22,13 @@
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
 		/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 	</head>
 	<body class="en">
 		<div class="menu">
 			<section class="jumbotron" style="text-align: center;">
-				<h2 lang="en">Welcome to DupMe the Game</h2>
-				<h2 lang="th">ยินดีต้อนรับสู่เกม กดตามฉันสิ อิอิ</h2>
-				<h2 lang="jp"></h2>
+				<h2 class="animated infinite bounce delay-2s" lang="en">Welcome to DupMe the Game</h2>
+				<h2 class="animated infinite bounce delay-2s" lang="th">ยินดีต้อนรับสู่เกม กดตามฉันสิ อิอิ</h2>
 			</section>
 			<br />
 			<div class="container" style="padding:60px 0px">
@@ -70,20 +70,12 @@
 						<h6 lang="th">เลขที่ห้อง</h6>
 						</label>
 						<input class="u-full-width" type="number" min="5" max="7" id="buttonNum" placeholder="5-7"/>
-					</div>
-				</div>
-				<div class="row">
-					<div class="alert alert-danger alert-dismissible fade out" role="alert" id="usernameAlert">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<strong>Warning!</strong>
-						<h6 id="gameAlertText"></h6>
+
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="gameBoard" style="display: none;">
+		<div class="gameBoard animated fadeInDownBig" style="display: none;">
 			<section class="jumbotron"></section>
 			<div class="container">
 				<div class="row">
@@ -124,28 +116,6 @@
 						</div>
 					</div>
 					<div id="" class="stopwatch center"></div>
-					<div class="alert alert-success alert-dismissible fade out top" role="alert" id="gameSuccessAlert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-							<strong>Your Turn!</strong>
-							<h6 id="gameAlertSuccess"></h6>
-						</div>
-						<div class="alert alert-info alert-dismissible fade out top2" role="alert" id="gameInfoAlert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-							<strong>Heyyy!</strong>
-							<h6 id="waitingAlertText"></h6>
-							<div class="loader"></div>
-						</div>
-						<div class="alert alert-danger alert-dismissible fade out top3" role="alert" id="gameDangerAlert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-							<strong>Nooooo!</strong>
-							<h6 id="gameAlertDanger"></h6>
-						</div>
 					</div>
 				</div>				
 				</section>
@@ -278,8 +248,12 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mouse0270-bootstrap-notify/3.1.7/bootstrap-notify.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mouse0270-bootstrap-notify/3.1.7/bootstrap-notify.min.js"></script>
+
 		<!--import three-->
 		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/109/three.js"></script> -->
+	
 		<!--import sound-->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.core.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.js"></script>

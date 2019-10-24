@@ -13,7 +13,8 @@
 	const socket = io.connect('/game');
 	var oppname = '';
 	var oppScoreTest = 0;
-	var roundNum=2;
+	var roundNum = 2;
+
 	/////////////////Initialize document//////////////////////
 	$(document).ready(function() {
 		$('.player_button').on({
@@ -39,6 +40,16 @@
 	});
 	// animate the pattern of the opponent array to follow.
 	async function animateAndSetReceiver(array) {
+		$.notify(
+			{
+				title: '<strong>Incoming!:</strong> ',
+				message: 'watch the pattern in 3 seconds.',
+			},
+			{
+				type: 'warning',
+			}
+		);
+		await delay(3000);
 		for (i = 0; i < array.length; i++) {
 			let ani_id = '#oppbtn_' + array[i];
 			toggleColor(ani_id, 'btn-primary', 'btn-danger');
@@ -46,7 +57,15 @@
 			toggleColor(ani_id, 'btn-danger', 'btn-primary');
 			await delay(250);
 		}
-
+		$.notify(
+			{
+				title: '<strong>YOOO!:</strong> ',
+				message: 'It is now your turn.',
+			},
+			{
+				type: 'success',
+			}
+		);
 		player.setCurrentTurn(true);
 		player.setReceiver(true);
 		timer.setAndStart('follow');
@@ -172,8 +191,16 @@
 				//getCurrentTurn returns boolean
 				//blocks other player
 				if (!player.getCurrentTurn() || !game) {
-					$('#gameAlertDanger').html('Its not your turn');
-					toggleAlert('gameDangerAlert');
+
+					$.notify(
+						{
+							title: '<strong>Hold Up!!</strong> ',
+							message: 'Its not your turn',
+						},
+						{
+							type: 'danger',
+						}
+					);
 					return;
 				}
 
@@ -210,8 +237,16 @@
 					var line = makeMoveText;
 					game.playTurn(line);
 					timer.stopAndReset();
-					$('#waitingAlertText').html('Waiting for opponent Turn.');
-					toggleAlert('gameInfoAlert');
+					$.notify(
+						{
+							title: '<strong>Done:</strong> ',
+							message: "Now Waiting for opponent Turn. <div class='loader'></div>",
+						},
+						{
+							type: 'info',
+						}
+					);
+
 					//update my board
 					game.updateBoard(line);
 					makeMoveText = '';
@@ -291,16 +326,24 @@
 		socket.emit('ping', {});
 		const name = $('#nameNew').val();
 		if (!name) {
-			$('#gameAlertText').html('You forgot to input player name.');
-			toggleAlert('usernameAlert');
+			$.notify(
+				{
+					title: '<strong>Ummm....</strong> ',
+					message: 'You forgot to input player name.',
+				},
+				{
+					type: 'danger',
+				}
+			);
+
 			return;
 		}
 		//eg. name:'Kat'
 		console.log($('#roundNum').val());
-		if($('#roundNum').val()!=''){
+		if ($('#roundNum').val() != '') {
 			roundNum = parseInt($('#roundNum').val());
 		}
-		socket.emit('createGame', { name ,roundNum:roundNum});
+		socket.emit('createGame', { name, roundNum: roundNum });
 		player = new Player(name);
 	});
 
@@ -310,8 +353,15 @@
 		const roomID = $('#room').val();
 		//eg. room-1
 		if (!name || !roomID) {
-			$('#gameAlertText').html('Either player name or room id are missing.');
-			toggleAlert('usernameAlert');
+			$.notify(
+				{
+					title: '<strong>Ummm....</strong> ',
+					message: 'Either player name or room id are missing.',
+				},
+				{
+					type: 'danger',
+				}
+			);
 			return;
 		}
 		socket.emit('joinGame', { name, room: roomID });
@@ -365,17 +415,27 @@
 	 */
 
 	socket.on('player1', data => {
-		if(data.roundNum){
-			roundNum=data.roundNum;
-			console.log(roundNum+'P1');
+
+		if (data.roundNum) {
+			roundNum = data.roundNum;
+			console.log(roundNum + 'P1');
+
 		}
 		if (!game) {
 			game = new Game(data.room);
 
 			game.displayBoard('');
 		}
-		$('#gameSuccessAlert').html('Type something for the opponent to follow.');
-		toggleAlert('gameSuccessAlert');
+
+		$.notify(
+			{
+				title: '<strong>It is your turn: </strong> ',
+				message: 'Type something for the opponent to follow.',
+			},
+			{
+				type: 'success',
+			}
+		);
 		game.moves = 0;
 		player.score = 0;
 		player.setReceiver(false);
@@ -388,7 +448,6 @@
 
 		player.setCurrentTurn(true);
 		timer.setAndStart('make');
-		console.log('Player 1 activated');
 	});
 
 	/**For playername registration */
@@ -412,18 +471,27 @@
 	 * This event is received when P2 successfully joins the game room.
 	 */
 	socket.on('player2', data => {
-		if(data.roundNum){
-			roundNum=data.roundNum;
+
+		if (data.roundNum) {
+			roundNum = data.roundNum;
 		}
-		console.log(roundNum+'P2');
+		console.log(roundNum + 'P2');
+
 		// Create game for player 2
 		if (!game) {
 			game = new Game(data.room);
 
 			game.displayBoard('');
 		}
-		$('#waitingAlertText').html('You start second, waiting for opponent to make move.');
-		toggleAlert('gameInfoAlert');
+		$.notify(
+			{
+				title: '<strong>You start second: </strong> ',
+				message: 'waiting for opponent to make move.<div class="loader"></div> ',
+			},
+			{
+				type: 'info',
+			}
+		);
 		game.moves = 0;
 		player.score = 0;
 		player.setReceiver(false);
@@ -447,7 +515,6 @@
 	socket.on('turnPlayed', data => {
 		//updateBoard after turnPlayed
 		socket.emit('ping', {});
-		$(`#hihi`).text('Success 3');
 		animateAndSetReceiver(data.line.split(''));
 		game.updateBoard(data.line);
 
@@ -625,8 +692,15 @@
 		doWhenTimeOut() {
 			$('#modal_TimeoutBody').text('Timeout: ' + this.action + ', Duration: ' + this.time + 'ms');
 			document.getElementById('modal_Timeout').style.display = 'block';
-			$('#waitingAlertText').html('Waiting for opponent turn, pay attention next time people.');
-			toggleAlert('gameInfoAlert');
+			$.notify(
+				{
+					title: '<strong>TIME UPPPSS!!: </strong> ',
+					message: 'Pay attention next time, waiting for opponent to make move.<div class="loader"></div> ',
+				},
+				{
+					type: 'info',
+				}
+			);
 			this.stopAndReset();
 			if (this.action == 'make') {
 				game.playTurn('11111');
@@ -902,8 +976,5 @@
 				break;
 		}
 	}
-	function toggleAlert(id) {
-		$('#' + id).toggleClass('show out');
-		return false; // Keep close.bs.alert event from removing from DOM
-	}
+
 })();
