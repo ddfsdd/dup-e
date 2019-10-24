@@ -212,7 +212,8 @@
         timer.startTimer(30000);
         console.log('you can now play the game');
         points = 0;
-        combo=0;
+		combo=0;
+        $('#combo').text(combo);
         $('#score').text(points);
         randomizer = ''+(Math.floor(Math.random() * 7)+1);
 		$('#replicate').text(randomizer);
