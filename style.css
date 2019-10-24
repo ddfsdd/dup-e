@@ -72,6 +72,16 @@ section.jumbotron {
 	}
 }
 
+#muted_button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 25px;
+	height: 25px;
+}
+.btn_img {
+	height: 25px;
+}
 /*stopwatch*/
 .stopwatch {
 	display: inline-block;

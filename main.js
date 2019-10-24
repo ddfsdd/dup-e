@@ -795,24 +795,27 @@
 		src: ['sfx/kira_theme.mp3'],
 		preload: true,
 		autoplay: true,
-		loop: true,
+    loop: true,
+    volume:0.2
 	});
 	//drawww monster cardoo.
 	var FoC_theme = new Howl({
 		src: ['sfx/FoC_theme.mp3'],
 		loop: true,
-		volume: ['0.1'],
+		volume: 0.1,
 	});
 	$('#muted_btn').on('click', () => {
 		if ($('#muted_btn').hasClass('toggled')) {
+      $('.btn_img').attr('src', 'pic/symbol/unmuted.png');
 			kira_theme.mute(false);
 			FoC_theme.mute(false);
 		} else {
+      $('.btn_img').attr('src', '/pic/symbol/muted.png');
 			kira_theme.mute(true);
 			FoC_theme.mute(true);
-		}
+    }
 
-		$('#muted_btn').toggleClass('toggled');
+	  $('#muted_btn').toggleClass('toggled');
 	});
 
 	//Sound Effect
