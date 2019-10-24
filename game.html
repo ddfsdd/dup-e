@@ -34,10 +34,8 @@
 			<div class="container" style="padding:60px 0px">
 				<div class="row" style="padding-bottom:40px;">
 					<div class="six columns">
-						<label for="nameNew">
-							<h6 lang="en">Player Name</h6>
-							<h6 lang="th">ชื่อผู้เล่น</h6>
-						</label>
+						<label for="nameNew" lang="en">Player Name</label>
+						<label for="nameNew" lang="th">ชื่อผู้เล่น</label>
 						<input class="u-full-width" type="text" id="nameNew" required />
 					</div>
 					<div class="six columns">
@@ -55,6 +53,23 @@
 						<h6 lang="en">Join Game</h6>
 						<h6 lang="th">เข้าร่วมเกม</h6>
 					</button>
+				</div>
+				<h5>Customize (default rounds =2, buttons =5)</h5>
+				<div class ="row">
+				<div class="six columns">
+						<label for="roundNum">
+							<h6 lang="en"> No. of Rounds</h6>
+							<h6 lang="th">จำนวนรอบ</h6>
+						</label>
+						<input class="u-full-width" type="number" min="2" max="10" id="roundNum" placeholder="2-10"/>
+					</div>
+					<div class="six columns">
+						<label for="buttonNum">
+						<h6 lang="en">Button</h6>
+						<h6 lang="th">เลขที่ห้อง</h6>
+						</label>
+						<input class="u-full-width" type="number" min="5" max="7" id="buttonNum" placeholder="5-7"/>
+					</div>
 				</div>
 				<div class="row">
 					<div class="alert alert-danger alert-dismissible fade out" role="alert" id="usernameAlert">
