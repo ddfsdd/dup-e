@@ -3,18 +3,21 @@
 //Function immediately called
 //alert(message) jQuery display alert box with message
 (function init() {
-	const P1 = 'X';
-	const P2 = 'O';
-	let player;
-	let game;
-	let timer;
-	var makeMoveText = '';
-	var followMoveText = '';
-	var actualFollowMoveText = '';
-	var oppWinStatus = '';
-	const socket = io.connect('/game');
-	/////////////////Initialize document//////////////////////
-	$(document).ready(function() {
+
+  const P1 = 'X';
+  const P2 = 'O';
+  let player;
+  let game;
+  let timer;
+  var makeMoveText = '';
+  var followMoveText = '';
+  var actualFollowMoveText ='';
+  var oppWinStatus = '';
+  const socket = io.connect('/game');
+  var oppname='';
+  var oppScoreTest = 0;
+/////////////////Initialize document//////////////////////
+  $(document).ready(function() {
 		$('.player_button').on({
 			mouseenter: function() {
 				toggleColor(this, 'btn-primary', 'btn-warning');
@@ -370,12 +373,23 @@
 	 * If player creates the game, he'll be P1(X) and has the first turn.
 	 * This event is received when opponent connects to the room.
 	 */
-	socket.on('player1', data => {
-		const message = `Hello, ${player.getPlayerName()}`;
-		$('#userHello').html(message);
-		if (!game) {
-			game = new Game(data.room);
 
+  socket.on('player1', (data) => {
+    if(!game){
+        game = new Game(data.room);
+
+        game.displayBoard('');
+      }
+
+      game.moves = 0;
+      player.score = 0;
+      player.setReceiver(false);
+      timer.stopAndReset();
+      $('#score').text(player.getScore());
+      socket.emit('updateScore', {
+				senderScore: player.getScore(),
+				room: game.getRoomId(),
+			});
 			game.displayBoard(message);
 		}
 
@@ -394,346 +408,393 @@
 		console.log('Player 1 activated');
 	});
 
-	/**
+
+    /**For playername registration */
+    socket.on('regOppPlayerName',(data)=>{
+      console.log(data.name);
+      
+      oppname = data.name;
+      var message = 'Hello '+player.getPlayerName()+', you are up against '+data.name+'.';
+      $('#userHello').html(message);
+      socket.emit('regOppPlayerNameReply',{name: player.getPlayerName(), room:game.getRoomId()});
+    });
+  
+    socket.on('regOppPlayerNameReply',(data)=>{
+      oppname = data.name;
+      var message = 'Hello '+player.getPlayerName()+', you are up against '+data.name+'.';
+      $('#userHello').html(message);
+      });
+  
+  /**
 	 * Joined the game, so player is P2(O).
 	 * This event is received when P2 successfully joins the game room.
 	 */
-	socket.on('player2', data => {
-		const message = `Hello, ${data.name}`;
-		$(`#hihi`).text('Player2 regis');
-		// Create game for player 2
-		if (!game) {
-			game = new Game(data.room);
+  socket.on('player2', (data) => {
+    // Create game for player 2
+  if(!game){
+      game = new Game(data.room);
 
-			game.displayBoard(message);
-		}
+      game.displayBoard('');
+    }
 
-		game.moves = 0;
-		player.score = 0;
-		player.setReceiver(false);
-		timer.stopAndReset();
-		$('#score').text(player.getScore());
-		socket.emit('updateScore', {
-			senderScore: player.getScore(),
-			room: game.getRoomId(),
-		});
+    game.moves = 0;
+    player.score = 0;
+    player.setReceiver(false);
+    timer.stopAndReset();
+    $('#score').text(player.getScore());
+    socket.emit('updateScore', {
+      senderScore: player.getScore(),
+      room: game.getRoomId(),
+    });
+    
+    game.moves -= 1;
+    player.setCurrentTurn(false);
+  });
 
-		game.moves -= 1;
-		player.setCurrentTurn(false);
-	});
-
-	/**
+  /**
 	 * Opponent played his turn. Update UI.
 	 * Allow the current player to play now.
 	 */
-	//tile.split('_') gives an array eg.button_21 will give ['button','21']
-	//from index.js, passes tile: data.tile, room: data.room
-	socket.on('turnPlayed', data => {
-		//updateBoard after turnPlayed
-		socket.emit('ping', {});
-		$(`#hihi`).text('Success 3');
-		animateAndSetReceiver(data.line.split(''));
-		game.updateBoard(data.line);
+   //tile.split('_') gives an array eg.button_21 will give ['button','21']
+   //from index.js, passes tile: data.tile, room: data.room
+  socket.on('turnPlayed', (data) => {
+    //updateBoard after turnPlayed
+    socket.emit('ping',{});
+    $(`#hihi`).text('Success 3');
+    animateAndSetReceiver(data.line.split(''));
+    game.updateBoard(data.line);
 
-		//player can now click submit
-	});
 
-	// If the other player wins, this event is received. Notify user game has ended.
-	socket.on('gameEnd', data => {
-		game.endGame(data.message);
-		socket.leave(data.room);
-	});
+    //player can now click submit
+  });
 
-	socket.on('evalScore', data => {
-		$('#turn').text('The game has ended.');
-		var yourScore = player.getScore();
-		var oppScore = data.oppScore;
-		$('#hihi').text('' + yourScore + ', ' + oppScore);
+  // If the other player wins, this event is received. Notify user game has ended.
+  socket.on('gameEnd', (data) => {
+    game.endGame(data.message);
+    socket.leave(data.room);
+  });
 
-		if (yourScore > oppScore) {
-			$('#meme_result').html('Winner Winner Chicken Dinner');
+  socket.on('evalScore', (data) => {
+    $('#turn').text('The game has ended.');
+    var yourScore = player.getScore();
+    var oppScore = data.oppScore;
+    var winLoseTieText = yourScore>oppScore ? "win": (yourScore<oppScore?"lose":"tie");
+    const message =
+    `'You, ${player.getPlayerName()}, ${winLoseTieText} against ${oppname} with your score of ${yourScore} vs ${oppScore}'`;
+  if(yourScore>oppScore){
+    $('#meme_result').html('Winner Winner Chicken Dinner');
 			$('#meme_message').html('เก่งดีนี่...');
-			$('#userHello').html('You win');
-			oppWinStatus = 'L';
-		} else if (yourScore < oppScore) {
-			$('#meme_result').html('You lose');
-			$('#meme_message').html("Don't hate the game, hate the player.");
+    $('#userHello').html("You win");
+    oppWinStatus='L';
+  }else if(yourScore<oppScore){
+    $('#meme_result').html('You lose');
+		$('#meme_message').html("Don't hate the game, hate the player.");
+			
+    oppWinStatus='W';
+  }else{
+    $('#meme_result').html('You tie');
+		$('#meme_message').html('you are both noobs.');
+			oppWinStatus='T';
+  }
+  
+  document.getElementById('modal_WaitForRematch').style.display='block';
+  $('#modal_WaitForRematchBody1').text('Please Wait for rematch. \n'+message);
 
-			oppWinStatus = 'W';
-		} else {
-			$('#meme_result').html('You tie');
-			$('#meme_message').html('you are both noobs.');
-			oppWinStatus = 'T';
-		}
+  $('#modal_replyForRematchBody1').text('Say yes to rematch, winner goes first. \n'+message);
+  socket.emit('announceWinner',{oppWinStatus:oppWinStatus,room:game.getRoomId()});
+  });
 
-		document.getElementById('modal_WaitForRematch').style.display = 'block';
+  socket.on('evalScore2',(data)=>{
+      var yourScore = player.getScore();
+      $('#turn').text('The game has ended.');
+      var winLoseTieText = yourScore>oppScore ? "win": (yourScore<oppScoreTest?"lose":"tie");
+      const message2 =
+      `'You, ${player.getPlayerName()}, ${winLoseTieText} against ${oppname} with your score of ${yourScore} vs ${oppScoreTest}'`;
+    
+      var winStatus = data.oppWinStatus;
+      var result = '';
+      var message='';
+      if(winStatus =='W'){
+        result = 'Winner Winner Chicken Dinner';
+		  	message = 'เก่งดีนี่...';
+		 }else if(winStatus =='L'){
+        result = 'You lose';
+		    message = "Don't hate the game, hate the player.";
+		 }else{
+        result = 'You tie';
+			  message = 'you are both noobs.';
+		 }
+  
+      
+      $('#modal_rematchRequestBody1').text('Say yes to rematch, winner goes first. \n'+ message2);
+      document.getElementById('modal_rematchRequest').style.display='block';
+      timer.setAndStart('rematchRequest');
+      $('#meme_result').html(result);
+      $('#meme_message').html(message);
+  });
 
-		socket.emit('announceWinner', { oppWinStatus: oppWinStatus, room: game.getRoomId() });
-	});
+  	//for replying score back to live score.
 
-	socket.on('evalScore2', data => {
-		$('#turn').text('The game has ended.');
-
-		var winStatus = data.oppWinStatus;
-		var result = '';
-		var message = '';
-		if (winStatus == 'W') {
-			result = 'Winner Winner Chicken Dinner';
-			message = 'เก่งดีนี่...';
-		} else if (winStatus == 'L') {
-			result = 'You lose';
-			message = "Don't hate the game, hate the player.";
-		} else {
-			result = 'You tie';
-			message = 'you are both noobs.';
-		}
-
-		document.getElementById('modal_rematchRequest').style.display = 'block';
-		timer.setAndStart('rematchRequest');
-		$('#meme_result').html(result);
-		$('#meme_message').html(message);
-	});
-
-	//for replying score back to live score.
 	socket.on('serverToOppScore', data => {
 		$('#score_opp').text(data.senderScore);
-		socket.emit('oppScoreBackToServer', { responseScore: player.getScore(), room: game.getRoomId() });
+    socket.emit('oppScoreBackToServer', { responseScore: player.getScore(), room: game.getRoomId() });
+    oppScore = data.senderScore;
+    console.log('oppScore '+oppScore);
 	});
 	socket.on('updateOppScore', data => {
-		$('#score_opp').html(data.oppScore);
+    $('#score_opp').html(data.oppScore);
+    oppScoreTest=data.oppScore;
+    console.log('oppScore '+oppScore);
+    
 	});
 
 	socket.on('reset', () => {
 		alert("You've been reset boi!");
 	});
 
-	socket.on('resetScore', data => {
-		alert("You're score is reset to " + data.score);
-		player.score = data.score;
-		$('#score').text(player.getScore());
-		//for live score update
-		socket.emit('updateScore', {
-			senderScore: player.getScore(),
-			room: game.getRoomId(),
-		});
-		socket.emit('resetScoreRcvd', { score: player.getScore() });
-	});
-	/**
+
+  socket.on('reset',() => {
+  alert("You've been reset boi!");
+});
+
+  socket.on('resetScore',(data)=>{
+    alert("You're score is reset to " + data.score);
+    player.score = parseInt(data.score);
+    $('#score').text(player.getScore());
+        //for live score update
+      socket.emit('updateScore', {
+        senderScore: player.getScore(),
+        room: game.getRoomId(),
+      });
+    socket.emit('resetScoreRcvd', {score: player.getScore()});
+  });
+  /**
 	 * End the game on any err event.
 	 */
-	socket.on('err', data => {
-		alert(data.message);
-	});
+  socket.on('err', (data) => {
+    alert(data.message);
+  });
 
-	/** Rematch events */
-	socket.on('rematchRequestReply', data => {
-		console.log('rematchRequestReply');
-		document.getElementById('modal_WaitForRematch').style.display = 'none';
-		timer.setAndStart('rematchReply');
-		$('#modalReplyForRematch').modal('show');
-		if (data.rematch) {
-			document.getElementById('modal_replyForRematch').style.display = 'block';
-		} else {
-			alert('Your opponent left');
-		}
-	});
+  /** Rematch events */
+  socket.on('rematchRequestReply',(data)=>{
+    console.log('rematchRequestReply');
+    document.getElementById('modal_WaitForRematch').style.display='none';
+   
+    if(data.rematch){
+      timer.setAndStart("rematchReply");
+      document.getElementById('modal_replyForRematch').style.display='block';
+    
+    }else{
+      alert('Your opponent left');
+    }
+  })
 
-	socket.on('rematchReplyNo', () => {
-		alert('Your opponent left');
-	});
+  socket.on('rematchReplyNo',()=>{
+    alert('Your opponent left');
+  });
 
-	/////////////////FIN Socket events//////////////////////
-	/**Timer*/
-	/*Stopwatch class (via var timerAnimate) refers to the actual timer countdown animation,
+/////////////////FIN Socket events//////////////////////
+  /**Timer*/
+  /*Stopwatch class (via var timerAnimate) refers to the actual timer countdown animation,
   while Timer class handles timeout actions*/
+  var modalTimeOutBody=$('#modal_TimeoutBody');
+  var modalTimeOut = document.getElementById('modal_Timeout');
+  var reset;
+  class Timer{
+    constructor(){
+      this.action='';
+      this.time=90;
 
-	var reset;
-	class Timer {
-		constructor() {
-			this.action = '';
-			this.time = 90;
-		}
-		setAndStart(action) {
-			this.setAction(action);
-			if (action == 'make') {
-				this.startTimer(10000);
-				return;
-			}
-			if (action == 'follow') {
-				this.startTimer(20000);
-				return;
-			}
-			//default
-			this.startTimer(30000);
-		}
-		setAction(action) {
-			this.action = action;
-		}
-		stopAndReset() {
-			timerAnimate.reset();
-			timerAnimate.stop();
-			this.reset();
-		}
-		startTimer(time) {
-			// timerAnimate.start();
-			this.time = time;
-			this.startTimerCountDown(time);
-			reset = window.setTimeout(this.doWhenTimeOut.bind(this), this.time);
-		}
-		startTimerCountDown(time) {
-			timerAnimate.setTime(time);
-			timerAnimate.timeDecrease();
-		}
-		reset() {
-			if (typeof reset != 'undefined') {
-				window.clearTimeout(reset);
-			}
-		}
+    }
+    setAndStart(action){
 
-		doWhenTimeOut() {
-			alert('Timeout ' + this.action + this.time);
-			this.stopAndReset();
-			if (this.action == 'make') {
-				game.playTurn('11111');
+      this.setAction(action);
+      if(action=='make'){
+        this.startTimer(10000);
+        return;
+      }
+      if(action=='follow'){
+        this.startTimer(20000);
+        return;
+      }
+      //default
+      this.startTimer(30000);
+      
+    }
+    setAction(action){
+      this.action=action;
+    }
+    stopAndReset(){
+      timerAnimate.reset();
+      timerAnimate.stop();
+      this.reset();
+    }
+    startTimer(time){
+      // timerAnimate.start();
+      this.time=time;
+      this.startTimerCountDown(time);
+      reset =  window.setTimeout(this.doWhenTimeOut.bind(this),this.time);
+    }
+    startTimerCountDown(time){
+      timerAnimate.setTime(time);
+      timerAnimate.timeDecrease();
+    }
+    reset(){
+      if (typeof reset != "undefined")
+      {window.clearTimeout(reset);}
+    }
 
-				//update my board
-				game.updateBoard('11111');
-				player.setCurrentTurn(false);
-			}
-			if (this.action == 'follow') {
-				game.moves++;
-				player.setReceiver(false);
-				if (game.moves == 2) {
-					player.setCurrentTurn(false);
-					game.checkEnd();
-					return;
-				}
-				$('#turn').text('Its your turn to type something for them to copy!');
-				timer.setAndStart('make');
+    doWhenTimeOut(){
+      $('#modal_TimeoutBody').text(('Timeout: '+this.action+', Duration: '+this.time+'ms'));
+      document.getElementById('modal_Timeout').style.display='block';
+    
+      this.stopAndReset();
+      if(this.action=='make'){
+        game.playTurn('11111');
 
-				return;
-			}
-			if (this.action == 'rematchRequest') {
-				socket.emit('rematchRequest', { room: game.getRoomId(), rematch: false });
-			}
-			if (this.action == 'rematchReply') {
-				socket.emit('rematchReply', { room: game.getRoomId(), rematch: false, oppWinStatus: oppWinStatus });
-			}
-		}
-	}
+        //update my board
+        game.updateBoard('11111');
+        player.setCurrentTurn(false);
+      }
+      if(this.action =='follow'){
+        game.moves++;
+        player.setReceiver(false);
+        if(game.moves == 2){
+          player.setCurrentTurn(false);
+          game.checkEnd();
+          return;
+        }
+        $('#turn').text('Its your turn to type something for them to copy!');
+        timer.setAndStart('make');
 
-	//timer
-	var Stopwatch = function(elem, options) {
-		var timer = createTimer(),
-			// startButton = createButton('start', start),
-			// stopButton = createButton('stop', stop),
-			// resetButton = createButton('reset', reset),
-			offset,
-			clock,
-			interval;
 
-		// default options
-		options = options || {};
-		options.delay = options.delay || 1;
+        return;
+      }
+    if(this.action == 'rematchRequest'){
+      socket.emit('rematchRequest',{room: game.getRoomId(), rematch: false});
+    }
+    if(this.action == 'rematchReply'){
+      socket.emit('rematchReply',{room: game.getRoomId(), rematch: false, oppWinStatus:oppWinStatus});
+    }
+    }
+  }
 
-		// append elements
-		elem.appendChild(timer);
-		// elem.appendChild(startButton);
-		// elem.appendChild(stopButton);
-		// elem.appendChild(resetButton);
 
-		// initialize
-		reset();
+  //timer
+  var Stopwatch = function(elem, options) {
+  	var timer = createTimer(),
+  		// startButton = createButton('start', start),
+  		// stopButton = createButton('stop', stop),
+  		// resetButton = createButton('reset', reset),
+  	offset,
+  	clock,
+		interval;
 
-		// private functions
-		function createTimer() {
-			return document.createElement('span');
-		}
+  	// default options
+  	options = options || {};
+  	options.delay = options.delay || 1;
 
-		function createButton(action, handler) {
-			var a = document.createElement('a');
-			a.href = '#' + action;
-			a.innerHTML = action;
-			a.addEventListener('click', function(event) {
-				handler();
-				event.preventDefault();
-			});
-			return a;
-		}
+  	// append elements
+  	elem.appendChild(timer);
+  	// elem.appendChild(startButton);
+  	// elem.appendChild(stopButton);
+  	// elem.appendChild(resetButton);
 
-		function start() {
-			if (!interval) {
-				offset = Date.now();
-				interval = setInterval(update, options.delay);
-			}
-		}
+  	// initialize
+  	reset();
 
-		function stop() {
-			if (interval) {
-				clearInterval(interval);
-				interval = null;
-			}
-		}
+  	// private functions
+  	function createTimer() {
+  		return document.createElement('span');
+  	}
 
-		function reset() {
-			clock = 0;
-			render();
-		}
+  	function createButton(action, handler) {
+  		var a = document.createElement('a');
+  		a.href = '#' + action;
+  		a.innerHTML = action;
+  		a.addEventListener('click', function(event) {
+  			handler();
+  			event.preventDefault();
+  		});
+  		return a;
+  	}
 
-		function update() {
-			clock += delta();
-			render();
-		}
+  	function start() {
+  		if (!interval) {
+  			offset = Date.now();
+  			interval = setInterval(update, options.delay);
+  		}
+  	}
 
-		function render() {
-			timer.innerHTML = clock / 1000;
-		}
+  	function stop() {
+  		if (interval) {
+  			clearInterval(interval);
+  			interval = null;
+  		}
+  	}
 
-		function delta() {
-			var now = Date.now(),
-				d = now - offset;
+  	function reset() {
+  		clock = 0;
+  		render();
+  	}
 
-			offset = now;
-			return d;
-		}
+  	function update() {
+  		clock += delta();
+  		render();
+  	}
 
-		function timeDecrease() {
-			if (!interval) {
-				offset = Date.now();
-				interval = setInterval(unupdate, options.delay);
-			}
-		}
+  	function render() {
+  		timer.innerHTML = clock / 1000;
+  	}
 
-		function giveMeTime() {
-			return clock / 1000;
-		}
+  	function delta() {
+  		var now = Date.now(),
+  			d = now - offset;
 
-		function setTime(time) {
-			clock = time;
-			render();
-		}
+  		offset = now;
+  		return d;
+  	}
 
-		function unupdate() {
-			clock -= delta();
-			render();
-		}
+    function timeDecrease() {
+      if (!interval) {
+        offset = Date.now();
+        interval = setInterval(unupdate, options.delay);
+      }
+    }
 
-		// public API
-		this.start = start;
-		this.stop = stop;
-		this.reset = reset;
-		this.timeDecrease = timeDecrease;
-		this.giveMeTime = giveMeTime;
-		this.setTime = setTime;
-	};
+    function giveMeTime() {
+  		return clock / 1000;
+  	}
 
-	var elems = document.getElementsByClassName('stopwatch');
-	var timerAnimate;
-	for (var i = 0, len = elems.length; i < len; i++) {
-		timerAnimate = new Stopwatch(elems[i]);
-	}
+    function setTime(time) {
+      clock = time;
+      render();
+     }
 
-	//easy language change with jquery
+    function unupdate() {
+      clock -= delta();
+      render();
+    }
+
+  	// public API
+  	this.start = start;
+  	this.stop = stop;
+  	this.reset = reset;
+    this.timeDecrease = timeDecrease;
+  	this.giveMeTime = giveMeTime;
+    this.setTime = setTime;
+  };
+
+
+  var elems = document.getElementsByClassName('stopwatch');
+  var timerAnimate;
+  for (var i = 0, len = elems.length; i < len; i++) {
+  	timerAnimate = new Stopwatch(elems[i]);
+  }
+
+  //easy language change with jquery
+
+
 	//hard labor require at html page
 	//language sent by the socket.
 	$('[lang="th"]').hide();

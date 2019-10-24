@@ -66,11 +66,29 @@
 
 				<section>
 					<div class="row">
-						<div class="six columns">
-							<div class="row">
-								<h1 class="u-full-width" style="text-align: center;">
-									Your Tile
-								</h1>
+
+						<h4 id="userHello" class="four columns mini-box"></h4>
+						<h4 id="turn" class="four columns mini-box"></h4>
+						<div id="display" style="display: none;"></div>
+						<div class="loader"></div>
+					</div>
+	
+					<section>
+						<div class="row">
+							<div class="six columns">
+								<div class="row">
+									<h1 class="u-full-width" style="text-align: center;">
+										Your Tile
+									</h1>
+								</div>
+								<div class="row">
+									<div class="btn-group center">
+										<div id="player"></div>
+									</div>
+								</div>
+								<div class="row">
+									<h1 id="score" class="center mini-box">0</h1>
+								</div>
 							</div>
 							<div class="row">
 								<div class="btn-group center">
@@ -109,64 +127,73 @@
 
 		<div id="modal_rematchRequest" class="w3-modal">
 			<div class="w3-modal-content">
-				<header class="w3-container w3-teal">
-					<span
-						onclick="document.getElementById('modal_rematchRequest').style.display='none'"
-						class="w3-button w3-display-topright"
-						>&times;</span
-					>
-					<h2>Rematch?</h2>
-				</header>
-				<div class="w3-container">
-					<p>Say yes to rematch, winner goes first.</p>
-				</div>
-				<footer class="w3-container w3-teal">
-					<button type="button" id="modal_rematchRequestYes" class="btn-btn-default">Rematch</button>
-					<button type="button" id="modal_rematchRequestNo" class="btn btn-default">Close</button>
-				</footer>
+
+			  <header class="w3-container w3-teal"> 
+				<span onclick="document.getElementById('modal_rematchRequest').style.display='none'" 
+				class="w3-button w3-display-topright">&times;</span>
+				<h2>Rematch?</h2>
+			  </header>
+			  <div class="w3-container">
+				<p id="modal_rematchRequestBody1"></p>
+			  </div>
+			  <footer class="w3-container w3-teal">
+				<button type="button" id="modal_rematchRequestYes" class="btn-btn-default">Rematch</button>
+				<button type="button" id="modal_rematchRequestNo"class="btn btn-default">Close</button>
+			  </footer>
+
 			</div>
 		</div>
 
 		<div id="modal_WaitForRematch" class="w3-modal">
 			<div class="w3-modal-content">
-				<header class="w3-container w3-teal">
-					<span
-						onclick="document.getElementById('modal_WaitForRematch').style.display='none'"
-						class="w3-button w3-display-topright"
-						>&times;</span
-					>
-					<h2>Please Wait For rematch</h2>
-				</header>
-				<footer class="w3-container w3-teal">
-					<button
-						type="button"
-						class="btn btn-default"
-						onclick="document.getElementById('modal_WaitForRematch').style.display='none'"
-					>
-						Close
-					</button>
-				</footer>
+
+			  <header class="w3-container w3-teal"> 
+				<span onclick="document.getElementById('modal_WaitForRematch').style.display='none'" 
+				class="w3-button w3-display-topright">&times;</span>
+				<h2 >Please Wait For rematch</h2>
+			  </header>
+			  <div class="w3-container" >
+				<p id ='modal_WaitForRematchBody1'></p>
+			  </div>
+			  <footer class="w3-container w3-teal">
+				<button type="button"class="btn btn-default" onclick="document.getElementById('modal_WaitForRematch').style.display='none'" >Close</button>
+			  </footer>
+
 			</div>
 		</div>
 		<div id="modal_replyForRematch" class="w3-modal">
 			<div class="w3-modal-content">
-				<header class="w3-container w3-teal">
-					<span
-						onclick="document.getElementById('modal_replyForRematch').style.display='none'"
-						class="w3-button w3-display-topright"
-						>&times;</span
-					>
-					<h2>Rematch?</h2>
-				</header>
-				<div class="w3-container">
-					<p>Say yes to rematch, winner goes first.</p>
-				</div>
-				<footer class="w3-container w3-teal">
-					<button type="button" id="modal_replyForRematchYes" class="btn-btn-default">Rematch</button>
-					<button type="button" id="modal_replyForRematchNo" class="btn btn-default">Close</button>
-				</footer>
+
+			  <header class="w3-container w3-teal"> 
+				<span onclick="document.getElementById('modal_replyForRematch').style.display='none'" 
+				class="w3-button w3-display-topright">&times;</span>
+				<h2>Rematch?</h2>
+			  </header>
+			  <div class="w3-container">
+				<p  id="modal_replyForRematchBody1"></p>
+			  </div>
+			  <footer class="w3-container w3-teal">
+				<button type="button" id="modal_replyForRematchYes" class="btn-btn-default">Rematch</button>
+				<button type="button" id="modal_replyForRematchNo"class="btn btn-default">Close</button>
+			  </footer>
 			</div>
-		</div>
+		  </div>
+		  
+		  <div id="modal_Timeout" class="w3-modal">
+			<div class="w3-modal-content">
+			  <header class="w3-container w3-teal"> 
+				<span onclick="document.getElementById('modal_Timeout').style.display='none'" 
+				class="w3-button w3-display-topright">&times;</span>
+				<h2 >Timeout</h2>
+			  </header>
+			  <div class="w3-container" >
+				<p id ='modal_TimeoutBody'></p>
+			  </div>
+			  <footer class="w3-container w3-teal">
+				<button type="button"class="btn btn-default" onclick="document.getElementById('modal_Timeout').style.display='none'" >Close</button>
+			  </footer>
+			</div>
+		  </div>
 
 		<div class="footer">
 			<div style="float:right;">
