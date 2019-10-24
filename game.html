@@ -17,50 +17,56 @@
 			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 			crossorigin="anonymous"
 		/>
-		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
-
-
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
 	</head>
-	<body class ="en">
-	
-			<div class="menu">
-				<section class="jumbotron" style="text-align: center;">
-					<h2 lang="en">Welcome to DupMe the Game</h2>
-					<h2 lang="th">ยินดีต้อนรับสู่เกม กดตามฉันสิ อิอิ</h2>
-					<h2 lang="jp"></h2>
-				</section>
-				<br />
-				<div class="container" style="padding:60px 0px">
-					<div class="row" style="padding-bottom:40px;">
-						<div class="six columns">
-							<label for="nameNew">
-								<h6 lang="en">Player Name</h6>
-								<h6 lang="th">ชื่อผู้เล่น</h6>
-							</label>
-							<input class="u-full-width" type="text" id="nameNew" required />
-						</div>
-						<div class="six columns">
-							<label for="room" lang="en">Room-ID</label>
-							<label for="room" lang="th">เลขที่ห้อง</label>
-							<input class="u-full-width" type="text" id="room" />
-						</div>
+	<body class="en">
+		<div class="menu">
+			<section class="jumbotron" style="text-align: center;">
+				<h2 lang="en">Welcome to DupMe the Game</h2>
+				<h2 lang="th">ยินดีต้อนรับสู่เกม กดตามฉันสิ อิอิ</h2>
+				<h2 lang="jp"></h2>
+			</section>
+			<br />
+			<div class="container" style="padding:60px 0px">
+				<div class="row" style="padding-bottom:40px;">
+					<div class="six columns">
+						<label for="nameNew">
+							<h6 lang="en">Player Name</h6>
+							<h6 lang="th">ชื่อผู้เล่น</h6>
+						</label>
+						<input class="u-full-width" type="text" id="nameNew" required />
 					</div>
-					<div class="row">
-						<button id="new" class="six columns btn-primary">
-							<h6 lang="en">Create new Game</h6>
-							<h6 lang="th">สร้างเกมใหม่</h6>
-						</button>
-						<button id="join" class="six columns btn-primary">
-							<h6 lang="en">Join Game</h6>
-							<h6 lang="th">เข้าร่วมเกม</h6>
-						</button>
+					<div class="six columns">
+						<label for="room" lang="en">Room-ID</label>
+						<label for="room" lang="th">เลขที่ห้อง</label>
+						<input class="u-full-width" type="text" id="room" />
 					</div>
 				</div>
+				<div class="row">
+					<button id="new" class="six columns btn-primary">
+						<h6 lang="en">Create new Game</h6>
+						<h6 lang="th">สร้างเกมใหม่</h6>
+					</button>
+					<button id="join" class="six columns btn-primary">
+						<h6 lang="en">Join Game</h6>
+						<h6 lang="th">เข้าร่วมเกม</h6>
+					</button>
+				</div>
 			</div>
-			<div class="gameBoard" style="display: none;">
-				<section class="jumbotron"></section>
-				<div class="container">
+		</div>
+		<div class="gameBoard" style="display: none;">
+			<section class="jumbotron"></section>
+			<div class="container">
+				<div class="row">
+					<h2 id="userHello" class="mini-box"></h2>
+					<h4 id="turn" class="four columns mini-box"></h4>
+					<div id="display" style="display: none;"></div>
+					<div class="loader"></div>
+				</div>
+
+				<section>
 					<div class="row">
+
 						<h4 id="userHello" class="four columns mini-box"></h4>
 						<h4 id="turn" class="four columns mini-box"></h4>
 						<div id="display" style="display: none;"></div>
@@ -84,36 +90,44 @@
 									<h1 id="score" class="center mini-box">0</h1>
 								</div>
 							</div>
-							<div class="six columns">
-								<div class="row">
-									<h1 class="u-full-width" style="text-align: center;">Opponent Tile</h1>
-								</div>
-								<div class="row">
-									<div class="btn-group center">
-										<div id="opponentPlayer"></div>
-									</div>
-								</div>
-								<div class="row">
-									<h1 id="score_opp" class="center mini-box">0</h1>
+							<div class="row">
+								<div class="btn-group center">
+									<div id="player"></div>
 								</div>
 							</div>
+							<div class="row">
+								<h1 id="score" class="center mini-box">0</h1>
+							</div>
 						</div>
-					</section>
-					<br />
-					<div class="row">
-						<div id="" class="six columns boxes" style="margin: 0 auto; position:static;"></div>
+						<div class="six columns">
+							<div class="row">
+								<h1 class="u-full-width" style="text-align: center;">Opponent Tile</h1>
+							</div>
+							<div class="row">
+								<div class="btn-group center">
+									<div id="opponentPlayer"></div>
+								</div>
+							</div>
+							<div class="row">
+								<h1 id="score_opp" class="center mini-box">0</h1>
+							</div>
+						</div>
 					</div>
-					<div id="" class="stopwatch center"></div>
+				</section>
+				<br />
+				<div class="row">
+					<div id="" class="six columns boxes" style="margin: 0 auto; position:static;"></div>
 				</div>
+				<div id="" class="stopwatch center"></div>
 			</div>
-			<!----------------
+		</div>
+		<!----------------
 		------ Modal ------
 		------------------>
 
-		
-
 		<div id="modal_rematchRequest" class="w3-modal">
 			<div class="w3-modal-content">
+
 			  <header class="w3-container w3-teal"> 
 				<span onclick="document.getElementById('modal_rematchRequest').style.display='none'" 
 				class="w3-button w3-display-topright">&times;</span>
@@ -126,11 +140,13 @@
 				<button type="button" id="modal_rematchRequestYes" class="btn-btn-default">Rematch</button>
 				<button type="button" id="modal_rematchRequestNo"class="btn btn-default">Close</button>
 			  </footer>
-			</div>
-		  </div>
 
-		  <div id="modal_WaitForRematch" class="w3-modal">
+			</div>
+		</div>
+
+		<div id="modal_WaitForRematch" class="w3-modal">
 			<div class="w3-modal-content">
+
 			  <header class="w3-container w3-teal"> 
 				<span onclick="document.getElementById('modal_WaitForRematch').style.display='none'" 
 				class="w3-button w3-display-topright">&times;</span>
@@ -142,10 +158,12 @@
 			  <footer class="w3-container w3-teal">
 				<button type="button"class="btn btn-default" onclick="document.getElementById('modal_WaitForRematch').style.display='none'" >Close</button>
 			  </footer>
+
 			</div>
-		  </div>
-		  <div id="modal_replyForRematch" class="w3-modal">
+		</div>
+		<div id="modal_replyForRematch" class="w3-modal">
 			<div class="w3-modal-content">
+
 			  <header class="w3-container w3-teal"> 
 				<span onclick="document.getElementById('modal_replyForRematch').style.display='none'" 
 				class="w3-button w3-display-topright">&times;</span>
@@ -180,15 +198,17 @@
 		<div class="footer">
 			<div style="float:right;">
 				<div class="row" style="float:right;bottom:0">
-					<button id="muted_btn"></button>
+					<button id="muted_btn">
+						<img class="btn_img" src="pic/symbol/unmuted.png" />
+					</button>
 					<button id="switch-lang">
 						<h6 lang="en">EN</h6>
-						<h6 lang="th">th</h6>
+						<h6 lang="th">TH</h6>
 					</button>
 				</div>
 			</div>
 		</div>
-		
+
 		<!--import jquery/bootstrap/socket-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
