@@ -18,6 +18,7 @@
 			crossorigin="anonymous"
 		/>
 		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 	<body class="en">
 		<div class="menu">
@@ -178,9 +179,18 @@
 		  </div>
 
 		<div class="footer">
-			<div style="float:left;">
-				<a href="home.html" class="previous">&laquo; Back to Homepage</a>
-				<a href="game.html" class="previous">&laquo; Room selection</a>
+			<div style="float:left;min-width: 175px;">
+				<div class="topnav">
+					<a href="game.html" class="active" style="text-align: left;">Main game</a>
+					<div id="myLinks">
+					  <a href="home.html">Homepage</a>
+					  <a href="testButtonPress.html">Training Ground</a>
+					</div>
+					<a href="javascript:void(0);" class="icon" onclick="myFunction()">
+					  <i class="fa fa-bars"></i>
+					</a>
+			</div>
+	
 			</div>
 			<div style="float:right;">
 				<div class="row" style="float:right;bottom:0">
@@ -190,7 +200,7 @@
 					<button id="switch-lang">
 						<h6 lang="en">EN</h6>
 						<h6 lang="th">TH</h6>
-					</button>
+					</button>		
 				</div>
 			</div>
 		</div>
@@ -208,5 +218,18 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.spatial.min.js"></script>
 		<!--import main.js-->
 		<script src="main.js"></script>
+
+		<script>
+		function myFunction() {
+		var x = document.getElementById("myLinks");
+		if (x.style.display === "block") {
+			x.style.display = "none";
+		} else {
+			x.style.display = "block";
+		}
+		}
+		</script>
+
+
 	</body>
 </html>
