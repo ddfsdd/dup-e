@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DupMe</title>
+		<!-- Specific Metas-->
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="node_modules/skeleton-css/css/normalize.css" />
+		<link rel="stylesheet" href="node_modules/skeleton-css/css/skeleton.css" />
+		<link rel="stylesheet" href="style.css" />
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+			crossorigin="anonymous"
+		/>
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+	</head>
+	<body class="en">
+		<div class="menu">
+			<section class="jumbotron" style="text-align: center;">
+				<h2 lang="en">How to play DupMe the Game</h2>
+			</section>
+			<br />
+		</div>
+		<div class="gameBoard">
+			<div class="container">
+				<section>
+					<div class="row">
+						<div class="six columns">
+							<div class="row">
+								<h1 class="u-full-width" style="text-align: center;">
+									Your Tile
+								</h1>
+							</div>
+							<div class="row">
+								<div class="btn-group center">
+									<div id="player"></div>
+								</div>
+							</div>
+							<div class="row">
+								<h1 id="score" class="center mini-box">0</h1>
+							</div>
+						</div>
+						<div class="six columns">
+							<div class="row">
+								<h1 class="u-full-width" style="text-align: center;">Opponent Tile</h1>
+							</div>
+							<div class="row">
+								<div class="btn-group center">
+									<div id="opponentPlayer"></div>
+								</div>
+							</div>
+							<div class="row">
+								<h1 id="score_opp" class="center mini-box">0</h1>
+							</div>
+						</div>
+                    </div>
+                    <ul class="w3-ul">
+                            <span class="w3-badge w3-margin-left w3-white" id="sequenceNo"></span>
+                            <li class="w3-btn w3-black" id="sequenceText"></li>
+                        </ul>
+                    <button class="w3-button w3-cyan" id="animate">Click to see how to play</button>
+				</section>
+            </div>
+		
+        </div>
+     
+		<div class="footer">
+			<div style="float:left;min-width: 175px;">
+				<div class="topnav">
+					<a href="game.html" class="active" style="text-align: left;">Main game</a>
+					<div id="myLinks">
+						<a href="home.html">Homepage</a>
+						<a href="testButtonPress.html">Training Ground</a>
+					</div>
+					<a href="javascript:void(0);" class="icon" onclick="myFunction()">
+						<i class="fa fa-bars"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!--import jquery/bootstrap/socket-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<!--import three-->
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/109/three.js"></script> -->
+		<!--import sound-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.core.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.spatial.min.js"></script>
+		<script src="howTo.js"></script>
+
+		<script>
+			function myFunction() {
+				var x = document.getElementById('myLinks');
+				if (x.style.display === 'block') {
+					x.style.display = 'none';
+				} else {
+					x.style.display = 'block';
+				}
+			}
+		</script>
+	</body>
+</html>

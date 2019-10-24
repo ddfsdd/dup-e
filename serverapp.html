@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>DupMe Server</title>
-		<link rel="stylesheet" href="main.css">
 		<link rel="stylesheet" href="node_modules/skeleton-css/css/skeleton.css">
 
 		<!-- Basic Page -->
@@ -15,18 +14,23 @@
 		<!-- CSS -->
 		<link rel="stylesheet" href="../node_modules/skeleton-css/css/normalize.css" />
 		<link rel="stylesheet" href="../node_modules/skeleton-css/css/skeleton.css" />
-		<link rel="stylesheet" href="custom.css" />
 		<link
 			rel="stylesheet"
 			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 			crossorigin="anonymous"
 		/>
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	</head>
 
 	<body>
+		
 		<div class="container">
-			<div class="menu">
+				<div id="authentication">
+					<input type="text" id="password" class="three columns" placeholder="Enter your password"/>
+					<button id="enterPwd" class="w3-button w3-indigo">Enter</button>
+				</div>
+			<div class="menu" style="display:none;">
 				<section class="jumbotron" style="text-align: center;">
 					<h2>Server Application</h2>
 				</section>
@@ -73,7 +77,6 @@
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/109/three.js"></script>
-		<script src="node_modules/jquery/dist/jquery.min.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="serverapp.js"></script>
 	</body>
