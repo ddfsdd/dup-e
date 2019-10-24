@@ -12,6 +12,16 @@
     document.getElementById("usersOnline").innerHTML = "Sorry, your browser does not support Web Storage...";
   }
 
+  $("#enterPwd").on('click',()=>{
+    console.log($('#password').val());
+    
+    if($('#password').val()=='123'){
+
+      $('.menu').css('display','block');
+      $('#authentication').css('display','none');
+   
+    }
+  });
   socket.on('usersOnline', (data) => {
     //Store state
     localStorage.setItem("usersOnline",data);
