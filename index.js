@@ -13,6 +13,7 @@ const io = require('socket.io')(server);
 //connect server to socket.io
 
 let rooms = 0;
+let roomTurns={};
 
 app.use(express.static('.'));
 
@@ -142,7 +143,7 @@ client.on('connection', socket => {
 		}else{
 			socket.join(room);
 		}
-
+		roomTurns[room] = data.roundNum;
 		//update playersOnline
 		//store socket id for that session with player name
 		IdRoomPlayer[socket.id] = [room, data.name];
@@ -180,11 +181,11 @@ client.on('connection', socket => {
 			if (whoFirst === 0) {
 				//broadcast.to= to other player
 				//emit is to the player that calls the event
-				socket.broadcast.to(data.room).emit('player1', {room:data.room});
-				socket.emit('player2',{room:data.room});
+				socket.broadcast.to(data.room).emit('player1', {room:data.room,roundNum:roomTurns[data.room]});
+				socket.emit('player2',{room:data.room,roundNum:roomTurns[data.room]});
 			} else {
-				socket.broadcast.to(data.room).emit('player2', {room:data.room});
-				socket.emit('player1',{room:data.room});
+				socket.broadcast.to(data.room).emit('player2', {room:data.room,roundNum:roomTurns[data.room]});
+				socket.emit('player1',{room:data.room,roundNum:roomTurns[data.room]});
 			}
 	} else {
 			socket.emit('err', { message: 'Sorry, The room is full!' });

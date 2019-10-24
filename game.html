@@ -34,10 +34,8 @@
 			<div class="container" style="padding:60px 0px">
 				<div class="row" style="padding-bottom:40px;">
 					<div class="six columns">
-						<label for="nameNew">
-							<h6 lang="en">Player Name</h6>
-							<h6 lang="th">ชื่อผู้เล่น</h6>
-						</label>
+						<label for="nameNew" lang="en">Player Name</label>
+						<label for="nameNew" lang="th">ชื่อผู้เล่น</label>
 						<input class="u-full-width" type="text" id="nameNew" required />
 					</div>
 					<div class="six columns">
@@ -56,12 +54,31 @@
 						<h6 lang="th">เข้าร่วมเกม</h6>
 					</button>
 				</div>
+				<h5 lang ="en">Customize (default rounds =2, buttons =5) [for creating game only]</h5>
+				<h5 lang ="th">ตั้งค่าเกม (ค่าเดิม สองรอบ ห้าปุ่ม) [สำหรับสร้างเกมเท่านั้น]</h5>
+				<div class ="row">
+				<div class="six columns">
+						<label for="roundNum">
+							<h6 lang="en"> No. of Rounds</h6>
+							<h6 lang="th">จำนวนรอบ</h6>
+						</label>
+						<input class="u-full-width" type="number" min="2" max="10" id="roundNum" onkeypress="return false;" placeholder="2-10"/>
+					</div>
+					<div class="six columns">
+						<label for="buttonNum">
+						<h6 lang="en">Button</h6>
+						<h6 lang="th">เลขที่ห้อง</h6>
+						</label>
+						<input class="u-full-width" type="number" min="5" max="7" id="buttonNum" placeholder="5-7"/>
+					</div>
+				</div>
 				<div class="row">
 					<div class="alert alert-danger alert-dismissible fade out" role="alert" id="usernameAlert">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<strong>Warning!</strong> You forgot to input player name.
+						<strong>Warning!</strong>
+						<h6 id="gameAlertText"></h6>
 					</div>
 				</div>
 			</div>
@@ -73,7 +90,6 @@
 					<h4 id="userHello" class="four columns mini-box"></h4>
 					<h4 id="turn" class="four columns mini-box"></h4>
 					<div id="display" style="display: none;"></div>
-					<div class="loader"></div>
 				</div>
 
 				<section>
@@ -107,13 +123,36 @@
 							</div>
 						</div>
 					</div>
+					<div id="" class="stopwatch center"></div>
+					<div class="alert alert-success alert-dismissible fade out top" role="alert" id="gameSuccessAlert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<strong>Your Turn!</strong>
+							<h6 id="gameAlertSuccess"></h6>
+						</div>
+						<div class="alert alert-info alert-dismissible fade out top2" role="alert" id="gameInfoAlert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<strong>Heyyy!</strong>
+							<h6 id="waitingAlertText"></h6>
+							<div class="loader"></div>
+						</div>
+						<div class="alert alert-danger alert-dismissible fade out top3" role="alert" id="gameDangerAlert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<strong>Nooooo!</strong>
+							<h6 id="gameAlertDanger"></h6>
+						</div>
+					</div>
+				</div>				
 				</section>
 				<br />
 				<div class="row">
 					<div id="" class="six columns boxes" style="margin: 0 auto; position:static;"></div>
-				</div>
-				<div id="" class="stopwatch center"></div>
-			</div>
+	
 		</div>
 		<!----------------
 		------ Modal ------
@@ -215,6 +254,7 @@
 					<div id="myLinks">
 						<a href="home.html">Homepage</a>
 						<a href="testButtonPress.html">Training Ground</a>
+						<a href="howTo.html">How to play</a>
 					</div>
 					<a href="javascript:void(0);" class="icon" onclick="myFunction()">
 						<i class="fa fa-bars"></i>
