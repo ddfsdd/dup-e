@@ -25,9 +25,7 @@
 				<section class="jumbotron"></section>
 				<div class="container">
 					<div class="row">
-						<h4 id="userHello" class="box">This is a training ground try and press the button here to check your mouse and keyboard.</h4>
-						<br>
-						<h4 id="display" style="display: block"></h4>
+						<h4 id="userHello" class="box">This is a time attack press the button you see in the box.</h4>
 					</div>
 			
 					<section>
@@ -44,29 +42,47 @@
 									</div>
 								</div>
 								<div class="row">
-									<h1 id="score" class="center mini-box">0</h1>
-								</div>
+									<h1 id="replicate" class="center mini-box"></h1>
+                                </div>
+
+					            <div id="" class="stopwatch center"></div>
+                                <div class="row">
+                                        <div class="six columns">
+                                            <h4 >combo</h4>
+                                        </div>
+                                        <div class="six columns">
+                                            <h4 id ="combo">0</h4>
+                                        </div>
+                                    </div>
+                                <div class="row">
+                                    <div class="six columns">
+                                        <h4 >score</h4>
+                                    </div>
+                                    <div class="six columns">
+                                        <h4 id ="score">0</h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button class ='w3-button w3-teal'id="start">START</button>
+                                    <button class ='w3-button w3-grey'id="reset">RESET</button>
+                                </div>
 							</div>
-						</div>
-						<div class="row">
-							<button id="start" class="w3-button w3-teal">START</button>
-							<button id="reset" class="w3-button w3-khaki">RESET</button>
 						</div>
 					</section>
 					<br />
 					<div class="row">
 						<div id="" class="six columns boxes" style="margin: 0 auto; position:static;"></div>
 					</div>
-					<div id="" class="stopwatch center"></div>
 				</div>
 			</div>
 		<div class="footer">
 				<div style="float:left;"></div>
 						<div class="topnav">
-							<a href="testButtonPress.html"class="active">Training Ground</a>
+							<a href="timeAttack.html"class="active">Time Attack</a>
 							<div id="myLinks">
 							  <a href="home.html">Homepage</a>
-							  <a href="game.html">Main game</a>
+                              <a href="game.html">Main game</a>
+                              <a href="testButtonPress.html">Training Ground</a>
 							</div>
 							<a href="javascript:void(0);" class="icon" onclick="myFunction()">
 							  <i class="fa fa-bars"></i>
@@ -79,7 +95,6 @@
 		<!--import jquery/bootstrap/socket-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-		<script src="/socket.io/socket.io.js"></script>
 		<!--import three-->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/109/three.js"></script>
 		<!--import sound-->
@@ -88,7 +103,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.spatial.min.js"></script>
 		<!--import related script-->
-		<script src="testButtonPress.js"></script>
+		<script src="timeAttack.js"></script>
 		<script>
 				function myFunction() {
 				var x = document.getElementById("myLinks");

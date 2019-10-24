@@ -14,6 +14,7 @@
 	var oppname = '';
 	var oppScoreTest = 0;
 	var roundNum = 2;
+
 	/////////////////Initialize document//////////////////////
 	$(document).ready(function() {
 		$('.player_button').on({
@@ -190,6 +191,7 @@
 				//getCurrentTurn returns boolean
 				//blocks other player
 				if (!player.getCurrentTurn() || !game) {
+
 					$.notify(
 						{
 							title: '<strong>Hold Up!!</strong> ',
@@ -244,6 +246,7 @@
 							type: 'info',
 						}
 					);
+
 					//update my board
 					game.updateBoard(line);
 					makeMoveText = '';
@@ -332,6 +335,7 @@
 					type: 'danger',
 				}
 			);
+
 			return;
 		}
 		//eg. name:'Kat'
@@ -411,15 +415,18 @@
 	 */
 
 	socket.on('player1', data => {
+
 		if (data.roundNum) {
 			roundNum = data.roundNum;
 			console.log(roundNum + 'P1');
+
 		}
 		if (!game) {
 			game = new Game(data.room);
 
 			game.displayBoard('');
 		}
+
 		$.notify(
 			{
 				title: '<strong>It is your turn: </strong> ',
@@ -464,10 +471,12 @@
 	 * This event is received when P2 successfully joins the game room.
 	 */
 	socket.on('player2', data => {
+
 		if (data.roundNum) {
 			roundNum = data.roundNum;
 		}
 		console.log(roundNum + 'P2');
+
 		// Create game for player 2
 		if (!game) {
 			game = new Game(data.room);
@@ -967,8 +976,5 @@
 				break;
 		}
 	}
-	// function toggleAlert(id) {
-	// 	$('#' + id).toggleClass('show out');
-	// 	return false; // Keep close.bs.alert event from removing from DOM
-	// }
+
 })();

@@ -37,7 +37,7 @@
 	var p1 = '';
 	var p2 = '';
 	//create player game button
-	for (i = 1; i <= 5; i++) {
+	for (i = 1; i <= 7; i++) {
 		p1 += "<button id='playerbtn_" + i + "' class='btn btn-primary player_button'>" + i + '</button>';
 	}
     document.getElementById('player').innerHTML = p1;
@@ -45,7 +45,7 @@
 
 
     /////////////Button interaction////////////////
-    for (let j = 1; j <= 5; j++) {
+    for (let j = 1; j <= 7; j++) {
 		$(`#playerbtn_${j}`).on('click', submitHandler);
 		$(`#playerbtn_${j}`).on('click', function() {
 			playBtnSound(j);
