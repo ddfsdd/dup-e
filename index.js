@@ -48,22 +48,26 @@ var serverapp = io.of('/server');
 serverapp.on('connection', socket => {
 	console.log('Server App Opened');
 	socket.on('reset', data => {
-		var roomSocket = client.adapter.rooms[data.room].sockets;
-		console.log(Object.keys(roomSocket));
-		var clientInRoom = Object.keys(roomSocket);
-		console.log(`reset ${data.room}`);
-		var whoFirst = Math.floor(Math.random() * 2);
-		console.log(clientInRoom[0]);
-		client.to(clientInRoom[0]).emit('reset');
-		client.to(clientInRoom[1]).emit('reset');
-		if (whoFirst === 0) {
-			//broadcast.to= to other player
-			//emit is to the player that calls the event
-			client.to(clientInRoom[0]).emit('player1', {});
-			client.to(clientInRoom[1]).emit('player2', {});
-		} else {
-			client.to(clientInRoom[1]).emit('player1', {});
-			client.to(clientInRoom[0]).emit('player2', {});
+		if(client.adapter.rooms[data.room] != undefined){
+			var roomSocket = client.adapter.rooms[data.room].sockets;
+			console.log(Object.keys(roomSocket));
+			var clientInRoom = Object.keys(roomSocket);
+			console.log(`reset ${data.room}`);
+			var whoFirst = Math.floor(Math.random() * 2);
+			console.log(clientInRoom[0]);
+			client.to(clientInRoom[0]).emit('reset');
+			client.to(clientInRoom[1]).emit('reset');
+			if(clientInRoom.length!=2){
+				if (whoFirst === 0) {
+					//broadcast.to= to other player
+					//emit is to the player that calls the event
+					client.to(clientInRoom[0]).emit('player1', {});
+					client.to(clientInRoom[1]).emit('player2', {});
+				} else {
+					client.to(clientInRoom[1]).emit('player1', {});
+					client.to(clientInRoom[0]).emit('player2', {});
+				}
+			}
 		}
   });
   

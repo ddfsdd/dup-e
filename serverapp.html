@@ -36,42 +36,65 @@
 				</section>
 				<br />
 				<section class="homeMenu">
-					<div class="row">
-						<input type="text" id="room" class="three columns" placeholder="Enter room id" />
-						<button id="reset">Reset Room's Game</button>
-					</div>
-					<div class="row">
-						<p>Reset Status: 
-							<p id='resetstatus'></p>
-							<br>
-						</p>
-					</div>
-					<div class="row">
-						<p>You can make the game more interesting!</p>
+					<div class ="w3-container w3-purple">
+						<br>
 						<div class="row">
-						<input type="text" id="roomB" class="three columns" placeholder="Enter room id" />
-						<input type="text" id="nameB" class="three columns" placeholder="Enter player's name" />
-						<input type="text" id="scoreB" class="three columns" placeholder="Enter score" />
-						<button id="resetB">Set Player's Score</button>
+							<div class="three columns">
+								<input type="text" id="room" placeholder="Enter room id" />
+							</div>
+							<div class="three columns">
+								<button id="reset" class="w3-button w3-deep-orange">Reset Room's Game</button>
+							</div>
+						</div>
+						<br>
+						<div class="row">
+							<h5 >Reset Status: </h5>
+							<p id='resetstatus'></p>
 						</div>
 					</div>
-					<div class="row">
-							<label class="six columns" style="text-align: center; font-size: 20px;">Concurrent Clients</label>
+					<br>
+					<div class="w3-container w3-red">
+						<div class="row">
+							<h3>You can make the game more interesting!</h3>
+						</div>
+						<div class="w3-container w3-pale-red">
+							<br>
+							<div class="row">
+								<div class="four columns">
+								<input type="text" id="roomB" placeholder="Enter room id" />
+								</div>
+								<div class="four columns">
+								<input type="text" id="nameB" placeholder="Enter player's name" />
+								</div>
+								<div class="four columns">
+								<input type="text" id="scoreB" placeholder="Enter score" />
+								</div>
+							</div>
+							<br>
+							<div class="row">
+								<button id="resetB" class="w3-button w3-sand">Set Player's Score</button>
+							</div>
+							<br>
+						</div>
+						<br>
 					</div>
-					<br />
-					<p>Number of people accessing web: 
+					<br>
+					<div class="w3-container w3-pink">
+						<div class="row">
+								<label style="text-align: center; font-size: 20px;">Concurrent Clients</label>
+						</div>
+						<br>
+						<h5>Number of people accessing web:</h5>
 						<p id='usersOnline'></p>
 						<br>
-					</p>
-					<p>Players Online: 
+						<h5>Players Online:</h5> 
 						<p id='playersOnline'></p>
 						<br>
-					</p>
-					<p>SocketId-Room-Player: 
-							<p id='IdRoomPlayer'></p>
-							<br>
-					</p>
-
+						<h5>SocketId-Room-Player:</h5>
+						<p id='IdRoomPlayer'></p>
+						<br>
+						</p>
+					</div>
 				</section>
 			</div>
 		</div>
