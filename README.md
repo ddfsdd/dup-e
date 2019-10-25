@@ -14,16 +14,16 @@ To run this game:
 http://localhost:5000/game for host
 
 [ExtraList]
-ok 1 Keyboard
-ok 2 Sound button +bgm 
-?? 3 Language
-?? 4 training ground 
-ok 5 server reset 
-?? 6 interactive button 
-ok 7 how to play 
-ok 8 alert 
-ok 9 authen 
-ok10 turn selection 
-ok 11 Time attack 
-?? 12 Animation on the dupme title
-ok 13 Line share
+1.  Keyboard
+2. Sound button +bgm 
+3. Partial Language
+4. training ground 
+5. server reset 
+6. interactive button 
+7. how to play 
+8. alert 
+9. authen 
+10. turn selection 
+11. Time attack 
+12. Animation on the dupme title
+13. Line share
