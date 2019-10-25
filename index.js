@@ -57,7 +57,7 @@ serverapp.on('connection', socket => {
 			console.log(clientInRoom[0]);
 			client.to(clientInRoom[0]).emit('reset');
 			client.to(clientInRoom[1]).emit('reset');
-			if(clientInRoom.length!=2){
+			if(clientInRoom.length==2){
 				if (whoFirst === 0) {
 					//broadcast.to= to other player
 					//emit is to the player that calls the event
