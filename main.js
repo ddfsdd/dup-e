@@ -566,10 +566,6 @@
 		alert("You've been reset boi!");
 	});
 
-	socket.on('reset', () => {
-		alert("You've been reset boi!");
-	});
-
 	socket.on('resetScore', data => {
 		alert("You're score is reset to " + data.score);
 		player.score = parseInt(data.score);
